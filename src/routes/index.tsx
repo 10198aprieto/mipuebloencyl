@@ -18,11 +18,11 @@ export const Route = createFileRoute("/")({
         content:
           "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
-      { property: "og:title", content: "¿Cómo de bien atendido está mi pueblo?" },
+      { property: "og:title", content: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
       {
         property: "og:description",
         content:
-          "Comparador ciudadano de servicios públicos por municipio de Castilla y León, con datos abiertos de la Junta.",
+          "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -77,19 +77,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Servicios públicos por municipio · Castilla y León" },
+      { title: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
       {
         name: "description",
         content:
-          "Comparador ciudadano de servicios públicos de los municipios de Castilla y León con datos abiertos de la Junta.",
+          "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
-      { property: "og:title", content: "Servicios públicos por municipio · Castilla y León" },
+      { property: "og:title", content: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
       {
         property: "og:description",
-        content: "Educación, salud, transporte y calidad del aire municipio a municipio.",
+        content: "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
+      { name: "twitter:description", content: "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/55a2d524-0593-4b6c-836b-4b9255b97170/id-preview-b8b4dea2--68d774e2-6fe6-4035-8eec-d8410fada867.lovable.app-1785687333117.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/55a2d524-0593-4b6c-836b-4b9255b97170/id-preview-b8b4dea2--68d774e2-6fe6-4035-8eec-d8410fada867.lovable.app-1785687333117.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -102,7 +106,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
