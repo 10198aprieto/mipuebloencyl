@@ -84,10 +84,15 @@ function indexMunicipios(rows: MunicipioRow[]) {
   };
 }
 
-async function upsertChunks(table: string, rows: Record<string, unknown>[], onConflict: string) {
+async function upsertChunks(table: string, rows: unknown[], onConflict: string) {
+  const client = supabaseAdmin as unknown as {
+    from: (t: string) => {
+      upsert: (r: unknown, o: { onConflict: string }) => Promise<{ error: { message: string } | null }>;
+    };
+  };
   for (let i = 0; i < rows.length; i += 500) {
-    const { error } = await supabaseAdmin.from(table).upsert(rows.slice(i, i + 500), { onConflict });
-    if (error) throw error;
+    const { error } = await client.from(table).upsert(rows.slice(i, i + 500), { onConflict });
+    if (error) throw new Error(`${table}: ${error.message}`);
   }
 }
 
