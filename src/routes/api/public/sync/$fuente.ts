@@ -15,7 +15,8 @@ export const Route = createFileRoute("/api/public/sync/$fuente")({
           const resultado = fuente === "todo" ? await syncTodo() : [await SYNC_TASKS[fuente]!()];
           return Response.json({ ok: true, resultado });
         } catch (e) {
-          const message = e instanceof Error ? e.message : String(e);
+          const message =
+            e instanceof Error ? e.message : typeof e === "object" ? JSON.stringify(e) : String(e);
           console.error(`[sync:${fuente}]`, message);
           return Response.json({ ok: false, error: message }, { status: 500 });
         }
