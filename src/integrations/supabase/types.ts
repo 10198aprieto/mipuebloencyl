@@ -59,6 +59,72 @@ export type Database = {
           },
         ]
       }
+      colegios_profesionales_municipio: {
+        Row: {
+          municipio_id: string
+          num_colegios_profesionales: number
+          updated_at: string
+        }
+        Insert: {
+          municipio_id: string
+          num_colegios_profesionales?: number
+          updated_at?: string
+        }
+        Update: {
+          municipio_id?: string
+          num_colegios_profesionales?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "colegios_profesionales_municipio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "colegios_profesionales_municipio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      contexto_economico_provincia: {
+        Row: {
+          fecha: string | null
+          parados_mujer: number | null
+          parados_total: number | null
+          parados_varon: number | null
+          provincia: string
+          provincia_norm: string | null
+          tasa_paro: number | null
+          updated_at: string
+        }
+        Insert: {
+          fecha?: string | null
+          parados_mujer?: number | null
+          parados_total?: number | null
+          parados_varon?: number | null
+          provincia: string
+          provincia_norm?: string | null
+          tasa_paro?: number | null
+          updated_at?: string
+        }
+        Update: {
+          fecha?: string | null
+          parados_mujer?: number | null
+          parados_total?: number | null
+          parados_varon?: number | null
+          provincia?: string
+          provincia_norm?: string | null
+          tasa_paro?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       estaciones_aire: {
         Row: {
           contaminante: string | null
@@ -142,8 +208,12 @@ export type Database = {
           indice_calculado: number | null
           municipio_id: string
           sub_aire: number | null
+          sub_comercio: number | null
+          sub_cultura: number | null
           sub_educacion: number | null
+          sub_movilidad: number | null
           sub_salud: number | null
+          sub_social: number | null
           sub_transporte: number | null
           updated_at: string
         }
@@ -151,8 +221,12 @@ export type Database = {
           indice_calculado?: number | null
           municipio_id: string
           sub_aire?: number | null
+          sub_comercio?: number | null
+          sub_cultura?: number | null
           sub_educacion?: number | null
+          sub_movilidad?: number | null
           sub_salud?: number | null
+          sub_social?: number | null
           sub_transporte?: number | null
           updated_at?: string
         }
@@ -160,8 +234,12 @@ export type Database = {
           indice_calculado?: number | null
           municipio_id?: string
           sub_aire?: number | null
+          sub_comercio?: number | null
+          sub_cultura?: number | null
           sub_educacion?: number | null
+          sub_movilidad?: number | null
           sub_salud?: number | null
+          sub_social?: number | null
           sub_transporte?: number | null
           updated_at?: string
         }
@@ -188,6 +266,7 @@ export type Database = {
           cod_municipio: string | null
           cod_provincia: string | null
           geom: unknown
+          geom_poly: unknown
           id: string
           latitud: number | null
           longitud: number | null
@@ -203,6 +282,7 @@ export type Database = {
           cod_municipio?: string | null
           cod_provincia?: string | null
           geom?: unknown
+          geom_poly?: unknown
           id?: string
           latitud?: number | null
           longitud?: number | null
@@ -218,6 +298,7 @@ export type Database = {
           cod_municipio?: string | null
           cod_provincia?: string | null
           geom?: unknown
+          geom_poly?: unknown
           id?: string
           latitud?: number | null
           longitud?: number | null
@@ -229,6 +310,90 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      servicios_comercio: {
+        Row: {
+          municipio_id: string
+          num_colaboradores_carnet_joven: number
+          num_establecimientos_comerciales: number
+          num_servicios_proximidad: number
+          updated_at: string
+        }
+        Insert: {
+          municipio_id: string
+          num_colaboradores_carnet_joven?: number
+          num_establecimientos_comerciales?: number
+          num_servicios_proximidad?: number
+          updated_at?: string
+        }
+        Update: {
+          municipio_id?: string
+          num_colaboradores_carnet_joven?: number
+          num_establecimientos_comerciales?: number
+          num_servicios_proximidad?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "servicios_comercio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "servicios_comercio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      servicios_cultura_ocio: {
+        Row: {
+          municipio_id: string
+          nombre_proxima_fiesta: string | null
+          num_bibliotecas_bibliobuses: number
+          num_museos: number
+          proxima_fiesta: string | null
+          tiene_fiestas_registradas: boolean
+          updated_at: string
+        }
+        Insert: {
+          municipio_id: string
+          nombre_proxima_fiesta?: string | null
+          num_bibliotecas_bibliobuses?: number
+          num_museos?: number
+          proxima_fiesta?: string | null
+          tiene_fiestas_registradas?: boolean
+          updated_at?: string
+        }
+        Update: {
+          municipio_id?: string
+          nombre_proxima_fiesta?: string | null
+          num_bibliotecas_bibliobuses?: number
+          num_museos?: number
+          proxima_fiesta?: string | null
+          tiene_fiestas_registradas?: boolean
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "servicios_cultura_ocio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "servicios_cultura_ocio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       servicios_educacion: {
         Row: {
@@ -263,22 +428,67 @@ export type Database = {
           },
         ]
       }
-      servicios_salud: {
+      servicios_movilidad_vehiculos: {
         Row: {
           municipio_id: string
-          num_centros_salud: number
-          num_hospitales_consultorios: number
+          num_centros_itv: number
+          num_puntos_recarga_electrica: number
           updated_at: string
         }
         Insert: {
           municipio_id: string
-          num_centros_salud?: number
-          num_hospitales_consultorios?: number
+          num_centros_itv?: number
+          num_puntos_recarga_electrica?: number
           updated_at?: string
         }
         Update: {
           municipio_id?: string
+          num_centros_itv?: number
+          num_puntos_recarga_electrica?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "servicios_movilidad_vehiculos_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "servicios_movilidad_vehiculos_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      servicios_salud: {
+        Row: {
+          area_salud: string | null
+          centro_salud_referencia: string | null
+          municipio_id: string
+          num_centros_salud: number
+          num_farmacias: number
+          num_hospitales_consultorios: number
+          updated_at: string
+        }
+        Insert: {
+          area_salud?: string | null
+          centro_salud_referencia?: string | null
+          municipio_id: string
           num_centros_salud?: number
+          num_farmacias?: number
+          num_hospitales_consultorios?: number
+          updated_at?: string
+        }
+        Update: {
+          area_salud?: string | null
+          centro_salud_referencia?: string | null
+          municipio_id?: string
+          num_centros_salud?: number
+          num_farmacias?: number
           num_hospitales_consultorios?: number
           updated_at?: string
         }
@@ -292,6 +502,48 @@ export type Database = {
           },
           {
             foreignKeyName: "servicios_salud_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      servicios_sociales: {
+        Row: {
+          municipio_id: string
+          num_centros_caracter_social: number
+          num_puntos_donacion: number
+          num_servicios_caracter_social: number
+          num_servicios_proximidad: number
+          updated_at: string
+        }
+        Insert: {
+          municipio_id: string
+          num_centros_caracter_social?: number
+          num_puntos_donacion?: number
+          num_servicios_caracter_social?: number
+          num_servicios_proximidad?: number
+          updated_at?: string
+        }
+        Update: {
+          municipio_id?: string
+          num_centros_caracter_social?: number
+          num_puntos_donacion?: number
+          num_servicios_caracter_social?: number
+          num_servicios_proximidad?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "servicios_sociales_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "servicios_sociales_municipio_id_fkey"
             columns: ["municipio_id"]
             isOneToOne: true
             referencedRelation: "vista_municipios"
@@ -368,9 +620,21 @@ export type Database = {
         Row: {
           indice_medio: number | null
           media_aire: number | null
+          media_comercio: number | null
+          media_cultura: number | null
           media_distancia_bus_km: number | null
           media_educacion: number | null
+          media_farmacias: number | null
+          media_movilidad: number | null
           media_salud: number | null
+          media_social: number | null
+          media_sub_aire: number | null
+          media_sub_comercio: number | null
+          media_sub_cultura: number | null
+          media_sub_educacion: number | null
+          media_sub_movilidad: number | null
+          media_sub_salud: number | null
+          media_sub_social: number | null
           num_municipios: number | null
         }
         Relationships: []
@@ -379,9 +643,21 @@ export type Database = {
         Row: {
           indice_medio: number | null
           media_aire: number | null
+          media_comercio: number | null
+          media_cultura: number | null
           media_distancia_bus_km: number | null
           media_educacion: number | null
+          media_farmacias: number | null
+          media_movilidad: number | null
           media_salud: number | null
+          media_social: number | null
+          media_sub_aire: number | null
+          media_sub_comercio: number | null
+          media_sub_cultura: number | null
+          media_sub_educacion: number | null
+          media_sub_movilidad: number | null
+          media_sub_salud: number | null
+          media_sub_social: number | null
           num_municipios: number | null
           provincia: string | null
         }
@@ -392,6 +668,8 @@ export type Database = {
           aire_contaminante: string | null
           aire_fecha_dato: string | null
           aire_ultimo_valor: number | null
+          area_salud: string | null
+          centro_salud_referencia: string | null
           cod_ine: number | null
           distancia_aire_km: number | null
           distancia_bus_km: number | null
@@ -402,15 +680,33 @@ export type Database = {
           latitud: number | null
           longitud: number | null
           nombre: string | null
+          nombre_proxima_fiesta: string | null
+          num_bibliotecas_bibliobuses: number | null
+          num_centros_caracter_social: number | null
           num_centros_educativos: number | null
+          num_centros_itv: number | null
           num_centros_salud: number | null
+          num_colegios_profesionales: number | null
+          num_establecimientos_comerciales: number | null
+          num_farmacias: number | null
           num_hospitales_consultorios: number | null
+          num_museos: number | null
+          num_puntos_donacion: number | null
+          num_puntos_recarga_electrica: number | null
+          num_servicios_caracter_social: number | null
+          num_servicios_proximidad: number | null
           poblacion: number | null
           provincia: string | null
+          proxima_fiesta: string | null
           sub_aire: number | null
+          sub_comercio: number | null
+          sub_cultura: number | null
           sub_educacion: number | null
+          sub_movilidad: number | null
           sub_salud: number | null
+          sub_social: number | null
           sub_transporte: number | null
+          tiene_fiestas_registradas: boolean | null
           updated_at: string | null
         }
         Relationships: []
@@ -419,8 +715,14 @@ export type Database = {
     Functions: {
       calcular_calidad_aire: { Args: never; Returns: number }
       calcular_transporte: { Args: never; Returns: number }
+      municipio_por_punto: {
+        Args: { _lat: number; _lon: number }
+        Returns: string
+      }
+      municipios_geojson: { Args: never; Returns: Json }
       norm_txt: { Args: { t: string }; Returns: string }
       recalcular_indice_servicios: { Args: never; Returns: number }
+      set_municipios_geom: { Args: { _rows: Json }; Returns: number }
     }
     Enums: {
       [_ in never]: never

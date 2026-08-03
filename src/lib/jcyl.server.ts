@@ -42,7 +42,7 @@ export function norm(t: string | null | undefined): string {
     .toUpperCase();
 }
 
-async function logSync(fuente: string, registros: number, ok = true, mensaje?: string) {
+export async function logSync(fuente: string, registros: number, ok = true, mensaje?: string) {
   await supabaseAdmin
     .from("sync_log")
     .upsert(
@@ -51,9 +51,9 @@ async function logSync(fuente: string, registros: number, ok = true, mensaje?: s
     );
 }
 
-type MunicipioRow = { id: string; cod_ine: number; nombre_norm: string; provincia_norm: string };
+export type MunicipioRow = { id: string; cod_ine: number; nombre_norm: string; provincia_norm: string };
 
-async function loadMunicipios(): Promise<MunicipioRow[]> {
+export async function loadMunicipios(): Promise<MunicipioRow[]> {
   const rows: MunicipioRow[] = [];
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabaseAdmin
@@ -67,7 +67,7 @@ async function loadMunicipios(): Promise<MunicipioRow[]> {
   return rows;
 }
 
-function indexMunicipios(rows: MunicipioRow[]) {
+export function indexMunicipios(rows: MunicipioRow[]) {
   const byNameProv = new Map<string, string>();
   const byName = new Map<string, string | null>();
   for (const m of rows) {
@@ -84,7 +84,7 @@ function indexMunicipios(rows: MunicipioRow[]) {
   };
 }
 
-async function upsertChunks(table: string, rows: unknown[], onConflict: string) {
+export async function upsertChunks(table: string, rows: unknown[], onConflict: string) {
   const client = supabaseAdmin as unknown as {
     from: (t: string) => {
       upsert: (r: unknown, o: { onConflict: string }) => Promise<{ error: { message: string } | null }>;

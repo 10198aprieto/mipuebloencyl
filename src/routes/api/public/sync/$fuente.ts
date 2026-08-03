@@ -8,11 +8,23 @@ export const Route = createFileRoute("/api/public/sync/$fuente")({
       POST: async ({ params }) => {
         const fuente = params.fuente;
         const { SYNC_TASKS, syncTodo } = await import("@/lib/jcyl.server");
-        if (fuente !== "todo" && !SYNC_TASKS[fuente]) {
+        const { SYNC_TASKS_EXTRA } = await import("@/lib/jcyl-extra.server");
+        const TASKS = { ...SYNC_TASKS, ...SYNC_TASKS_EXTRA };
+        if (fuente !== "todo" && !TASKS[fuente]) {
           return Response.json({ error: `Fuente desconocida: ${fuente}` }, { status: 404 });
         }
         try {
-          const resultado = fuente === "todo" ? await syncTodo() : [await SYNC_TASKS[fuente]!()];
+          const resultado =
+            fuente === "todo"
+              ? [
+                  ...(await syncTodo()),
+                  ...(await (async () => {
+                    const out = [];
+                    for (const key of Object.keys(SYNC_TASKS_EXTRA)) out.push(await SYNC_TASKS_EXTRA[key]!());
+                    return out;
+                  })()),
+                ]
+              : [await TASKS[fuente]!()];
           return Response.json({ ok: true, resultado });
         } catch (e) {
           const message =
