@@ -60,8 +60,7 @@ export default function MapaCyL({ geo, puntos, indices, seleccionado, onSelect }
     porId.current.clear();
     const renderer = L.canvas({ padding: 0.3 });
     const capaGeo = L.geoJSON(geo as unknown as GeoJSON.FeatureCollection, {
-      renderer,
-      style: () => ({ weight: 0.4, color: "#ffffff", opacity: 0.7, fillOpacity: 0.85 }),
+      style: () => ({ renderer, weight: 0.4, color: "#ffffff", opacity: 0.7, fillOpacity: 0.85 }),
       onEachFeature: (feature, layer) => {
         const props = feature.properties as { id: string; nombre: string };
         porId.current.set(props.id, layer as L.Path);
