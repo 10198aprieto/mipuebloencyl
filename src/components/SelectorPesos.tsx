@@ -52,7 +52,7 @@ export function SelectorPesos({ pesos, onChange }: Props) {
                 step={1}
                 value={valor}
                 onChange={(e) => onChange({ ...pesos, [c.clave]: Number(e.target.value) })}
-                className="mt-1 w-full accent-[hsl(var(--primary))]"
+                className="mt-1 w-full accent-primary"
               />
             </div>
           );
