@@ -235,7 +235,11 @@ export function FichaMunicipio({
                   key={c.clave}
                   etiqueta={c.etiqueta}
                   valor={m[c.clave]}
-                  media={cyl ? ((cyl[`media_${c.clave}` as keyof typeof cyl] as number | null) ?? null) : null}
+                  media={
+                    cyl
+                      ? ((cyl as unknown as Record<string, number | null>)[`media_${c.clave}`] ?? null)
+                      : null
+                  }
                 />
               ))}
             </section>
