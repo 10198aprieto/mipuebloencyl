@@ -80,9 +80,11 @@ export type Medias = {
 
 export type ParoProvincia = {
   provincia: string;
-  paro_registrado: number | null;
-  tasa_paro_estimada: number | null;
-  periodo: string | null;
+  parados_total: number | null;
+  parados_mujer: number | null;
+  parados_varon: number | null;
+  tasa_paro: number | null;
+  fecha: string | null;
 };
 
 /** Categorías del índice ponderable desde el frontend. */
@@ -166,7 +168,7 @@ export async function fetchGeoMunicipios(): Promise<GeoMunicipios> {
 export async function fetchParoProvincia(provincia: string): Promise<ParoProvincia | null> {
   const { data, error } = await supabase
     .from("contexto_economico_provincia")
-    .select("provincia, paro_registrado, tasa_paro_estimada, periodo")
+    .select("provincia, parados_total, parados_mujer, parados_varon, tasa_paro, fecha")
     .eq("provincia", provincia)
     .maybeSingle();
   if (error) return null;
