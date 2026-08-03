@@ -1,11 +1,22 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ClientOnly } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 import { BuscadorMunicipio } from "@/components/BuscadorMunicipio";
 import { FichaMunicipio } from "@/components/FichaMunicipio";
-import { fetchPuntosMapa, fetchUltimaActualizacion, fmtFecha, nivelIndice, type PuntoMapa } from "@/lib/cyl";
+import { SelectorPesos } from "@/components/SelectorPesos";
+import {
+  fetchGeoMunicipios,
+  fetchPuntosMapa,
+  fetchUltimaActualizacion,
+  fmtFecha,
+  indiceConPesos,
+  nivelIndice,
+  PESOS_POR_DEFECTO,
+  type Pesos,
+  type PuntoMapa,
+} from "@/lib/cyl";
 
 const MapaCyL = lazy(() => import("@/components/MapaCyL"));
 
@@ -35,9 +46,16 @@ const LEYENDA = [65, 50, 38, 28, 0].map((v) => nivelIndice(v));
 
 function Index() {
   const [seleccionado, setSeleccionado] = useState<PuntoMapa | null>(null);
+  const [pesos, setPesos] = useState<Pesos>({ ...PESOS_POR_DEFECTO });
   const puntos = useQuery({ queryKey: ["puntos-mapa"], queryFn: fetchPuntosMapa, staleTime: 1000 * 60 * 60 });
+  const geo = useQuery({ queryKey: ["geo-municipios"], queryFn: fetchGeoMunicipios, staleTime: 1000 * 60 * 60 * 24 });
   const actualizado = useQuery({ queryKey: ["ultima-actualizacion"], queryFn: fetchUltimaActualizacion });
   const lista = puntos.data ?? [];
+
+  const indices = useMemo(
+    () => new Map(lista.map((p) => [p.id, indiceConPesos(p, pesos)])),
+    [lista, pesos],
+  );
 
   return (
     <div className="min-h-screen">
@@ -70,11 +88,19 @@ function Index() {
       </header>
 
       <main className="mx-auto max-w-6xl space-y-8 px-5 py-8">
+        <SelectorPesos pesos={pesos} onChange={setPesos} />
+
         <section aria-label="Mapa de Castilla y León" className="space-y-3">
           <div className="h-[420px] overflow-hidden rounded-2xl border border-border shadow-[var(--shadow-ficha)] sm:h-[520px]">
             <ClientOnly fallback={<div className="h-full w-full animate-pulse bg-secondary" />}>
               <Suspense fallback={<div className="h-full w-full animate-pulse bg-secondary" />}>
-                <MapaCyL puntos={lista} seleccionado={seleccionado} onSelect={setSeleccionado} />
+                <MapaCyL
+                  geo={geo.data ?? null}
+                  puntos={lista}
+                  indices={indices}
+                  seleccionado={seleccionado}
+                  onSelect={setSeleccionado}
+                />
               </Suspense>
             </ClientOnly>
           </div>
@@ -91,7 +117,7 @@ function Index() {
 
         <section aria-label="Ficha del municipio">
           {seleccionado ? (
-            <FichaMunicipio municipioId={seleccionado.id} />
+            <FichaMunicipio municipioId={seleccionado.id} pesos={pesos} />
           ) : (
             <div className="rounded-2xl border border-dashed border-border bg-card/60 p-10 text-center">
               <h2 className="text-2xl">Elige un municipio para ver su ficha</h2>
