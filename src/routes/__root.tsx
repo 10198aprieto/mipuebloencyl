@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -11,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { PieSitio } from "@/components/PieSitio";
+import { BannerCookies } from "@/components/BannerCookies";
 
 function NotFoundComponent() {
   return (
@@ -116,7 +119,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>
@@ -130,11 +133,27 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const esEmbed = pathname.startsWith("/embed");
 
   return (
     <QueryClientProvider client={queryClient}>
+      {!esEmbed && (
+        <a
+          href="#contenido-principal"
+          className="sr-only rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[4000]"
+        >
+          Saltar al contenido principal
+        </a>
+      )}
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      {!esEmbed && (
+        <>
+          <PieSitio />
+          <BannerCookies />
+        </>
+      )}
     </QueryClientProvider>
   );
 }
