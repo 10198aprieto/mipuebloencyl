@@ -1,16 +1,14 @@
 import { lazy, Suspense, useMemo, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ClientOnly } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { ExternalLink } from "lucide-react";
 import { BuscadorMunicipio } from "@/components/BuscadorMunicipio";
 import { FichaMunicipio } from "@/components/FichaMunicipio";
 import { SelectorPesos } from "@/components/SelectorPesos";
+import { Radiografia } from "@/components/Radiografia";
 import {
   fetchGeoMunicipios,
   fetchPuntosMapa,
-  fetchUltimaActualizacion,
-  fmtFecha,
   indiceConPesos,
   nivelIndice,
   PESOS_POR_DEFECTO,
@@ -49,7 +47,6 @@ function Index() {
   const [pesos, setPesos] = useState<Pesos>({ ...PESOS_POR_DEFECTO });
   const puntos = useQuery({ queryKey: ["puntos-mapa"], queryFn: fetchPuntosMapa, staleTime: 1000 * 60 * 60 });
   const geo = useQuery({ queryKey: ["geo-municipios"], queryFn: fetchGeoMunicipios, staleTime: 1000 * 60 * 60 * 24 });
-  const actualizado = useQuery({ queryKey: ["ultima-actualizacion"], queryFn: fetchUltimaActualizacion });
   const lista = puntos.data ?? [];
 
   const indices = useMemo(
@@ -78,7 +75,7 @@ function Index() {
               onSelect={setSeleccionado}
               seleccionado={seleccionado?.nombre ?? null}
             />
-            <p className="mt-2 text-xs text-muted-foreground">
+            <p className="mt-2 text-xs text-muted-foreground" aria-live="polite">
               {puntos.isLoading
                 ? "Cargando municipios…"
                 : `${lista.length.toLocaleString("es-ES")} municipios disponibles. También puedes tocar un punto del mapa.`}
@@ -87,7 +84,9 @@ function Index() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl space-y-8 px-5 py-8">
+      <main id="contenido-principal" className="mx-auto max-w-6xl space-y-8 px-5 py-8">
+        <Radiografia puntos={lista} pesos={pesos} onSelect={setSeleccionado} />
+
         <SelectorPesos pesos={pesos} onChange={setPesos} />
 
         <section aria-label="Mapa de Castilla y León" className="space-y-3">
@@ -132,37 +131,20 @@ function Index() {
         <section className="rounded-2xl border border-border bg-secondary/50 p-6 text-sm leading-relaxed text-muted-foreground">
           <h2 className="text-lg text-foreground">Cómo se calcula el índice</h2>
           <p className="mt-2">
-            El índice resume en una escala de 0 a 100 cuatro indicadores: centros educativos (30 %), centros
-            sanitarios (30 %), cercanía a una estación de autobuses (25 %) y calidad del aire medida en la
-            estación más próxima (15 %). Educación y salud se normalizan de forma logarítmica respecto al máximo
-            de la comunidad para que los municipios pequeños sigan siendo comparables entre sí. Como el registro
-            de estaciones de autobuses solo cubre municipios de más de 5.000 habitantes, el transporte se mide
-            como distancia en línea recta a la estación más cercana, no como presencia en el propio municipio.
+            El índice resume en una escala de 0 a 100 seis categorías de servicios públicos, con estos pesos por
+            defecto: educación (22 %), salud —centros sanitarios y farmacias— (26 %), movilidad —cercanía a la
+            estación de autobuses, ITV y puntos de recarga— (16 %), servicios sociales (14 %), cultura y ocio
+            —bibliotecas, bibliobuses y museos— (12 %) y comercio de proximidad (10 %). Puedes cambiar esos pesos
+            arriba y todo se recalcula al instante. Los recuentos se normalizan de forma logarítmica respecto al
+            máximo de la comunidad para que los municipios pequeños sigan siendo comparables; el transporte se
+            mide como distancia en línea recta a la estación más cercana, porque ese registro solo cubre
+            municipios de más de 5.000 habitantes.
           </p>
+          <Link to="/metodologia" className="mt-3 inline-block font-medium text-primary underline underline-offset-4">
+            Ver la metodología completa y las fuentes
+          </Link>
         </section>
       </main>
-
-      <footer className="border-t border-border bg-card">
-        <div className="mx-auto max-w-6xl px-5 py-8 text-sm text-muted-foreground">
-          <p>
-            <strong className="text-foreground">Fuente:</strong> Portal de Datos Abiertos de la Junta de Castilla
-            y León (registro de municipios, directorio de centros docentes, centros de salud, registro de centros
-            sanitarios, estaciones de autobuses y estaciones de calidad del aire).
-          </p>
-          <p className="mt-1">
-            Última actualización de los datos: {fmtFecha(actualizado.data)}. Los datos se sincronizan
-            automáticamente una vez al mes.
-          </p>
-          <a
-            className="mt-3 inline-flex items-center gap-1.5 font-medium text-primary underline underline-offset-4"
-            href="https://datosabiertos.jcyl.es/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            datosabiertos.jcyl.es <ExternalLink className="size-3.5" aria-hidden />
-          </a>
-        </div>
-      </footer>
     </div>
   );
 }
