@@ -10,11 +10,47 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as MetodologiaRouteImport } from './routes/metodologia'
+import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
+import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
+import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
+import { Route as ApiOgCodIneRouteImport } from './routes/api/og/$codIne'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvisoLegalRoute = AvisoLegalRouteImport.update({
+  id: '/aviso-legal',
+  path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MetodologiaRoute = MetodologiaRouteImport.update({
+  id: '/metodologia',
+  path: '/metodologia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
+  id: '/politica-cookies',
+  path: '/politica-cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
+  id: '/politica-privacidad',
+  path: '/politica-privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmbedCodIneRoute = EmbedCodIneRouteImport.update({
+  id: '/embed/$codIne',
+  path: '/embed/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOgCodIneRoute = ApiOgCodIneRouteImport.update({
+  id: '/api/og/$codIne',
+  path: '/api/og/$codIne',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
@@ -25,27 +61,76 @@ const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/metodologia': typeof MetodologiaRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/embed/$codIne': typeof EmbedCodIneRoute
+  '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/metodologia': typeof MetodologiaRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/embed/$codIne': typeof EmbedCodIneRoute
+  '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/aviso-legal': typeof AvisoLegalRoute
+  '/metodologia': typeof MetodologiaRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/embed/$codIne': typeof EmbedCodIneRoute
+  '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/sync/$fuente'
+  fullPaths:
+    | '/'
+    | '/aviso-legal'
+    | '/metodologia'
+    | '/politica-cookies'
+    | '/politica-privacidad'
+    | '/embed/$codIne'
+    | '/api/og/$codIne'
+    | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/sync/$fuente'
-  id: '__root__' | '/' | '/api/public/sync/$fuente'
+  to:
+    | '/'
+    | '/aviso-legal'
+    | '/metodologia'
+    | '/politica-cookies'
+    | '/politica-privacidad'
+    | '/embed/$codIne'
+    | '/api/og/$codIne'
+    | '/api/public/sync/$fuente'
+  id:
+    | '__root__'
+    | '/'
+    | '/aviso-legal'
+    | '/metodologia'
+    | '/politica-cookies'
+    | '/politica-privacidad'
+    | '/embed/$codIne'
+    | '/api/og/$codIne'
+    | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AvisoLegalRoute: typeof AvisoLegalRoute
+  MetodologiaRoute: typeof MetodologiaRoute
+  PoliticaCookiesRoute: typeof PoliticaCookiesRoute
+  PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
+  EmbedCodIneRoute: typeof EmbedCodIneRoute
+  ApiOgCodIneRoute: typeof ApiOgCodIneRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
 
@@ -56,6 +141,48 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/aviso-legal': {
+      id: '/aviso-legal'
+      path: '/aviso-legal'
+      fullPath: '/aviso-legal'
+      preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/metodologia': {
+      id: '/metodologia'
+      path: '/metodologia'
+      fullPath: '/metodologia'
+      preLoaderRoute: typeof MetodologiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-cookies': {
+      id: '/politica-cookies'
+      path: '/politica-cookies'
+      fullPath: '/politica-cookies'
+      preLoaderRoute: typeof PoliticaCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-privacidad': {
+      id: '/politica-privacidad'
+      path: '/politica-privacidad'
+      fullPath: '/politica-privacidad'
+      preLoaderRoute: typeof PoliticaPrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/embed/$codIne': {
+      id: '/embed/$codIne'
+      path: '/embed/$codIne'
+      fullPath: '/embed/$codIne'
+      preLoaderRoute: typeof EmbedCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/og/$codIne': {
+      id: '/api/og/$codIne'
+      path: '/api/og/$codIne'
+      fullPath: '/api/og/$codIne'
+      preLoaderRoute: typeof ApiOgCodIneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/sync/$fuente': {
@@ -70,6 +197,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AvisoLegalRoute: AvisoLegalRoute,
+  MetodologiaRoute: MetodologiaRoute,
+  PoliticaCookiesRoute: PoliticaCookiesRoute,
+  PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
+  EmbedCodIneRoute: EmbedCodIneRoute,
+  ApiOgCodIneRoute: ApiOgCodIneRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
 export const routeTree = rootRouteImport

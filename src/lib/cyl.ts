@@ -210,10 +210,87 @@ export async function fetchUltimaActualizacion(): Promise<string | null> {
     .from("sync_log")
     .select("ejecutado_en")
     .order("ejecutado_en", { ascending: false })
-    .limit(1)
+    .limit(1);
+  if (error) {
+    console.error("[cyl] No se pudo leer la última sincronización:", error.message);
+    return null;
+  }
+  const filas = (data ?? []) as Array<{ ejecutado_en: string | null }>;
+  return filas[0]?.ejecutado_en ?? null;
+}
+
+export type EstadoSync = {
+  fuente: string;
+  registros: number | null;
+  ok: boolean;
+  mensaje: string | null;
+  ejecutado_en: string;
+};
+
+/** Estado de la última sincronización de cada fuente (para el panel de metodología). */
+export async function fetchEstadoSincronizacion(): Promise<EstadoSync[]> {
+  const { data, error } = await supabase
+    .from("estado_sincronizacion")
+    .select("fuente, registros, ok, mensaje, ejecutado_en")
+    .order("fuente");
+  if (error) {
+    console.error("[cyl] No se pudo leer el estado de sincronización:", error.message);
+    return [];
+  }
+  return (data ?? []) as EstadoSync[];
+}
+
+export type Radiografia = {
+  total: number;
+  sinCentroSanitario: number;
+  lejosDelBus: number;
+  sinFarmacia: number;
+};
+
+/** Cifras destacadas calculadas en vivo sobre los datos reales. */
+export async function fetchRadiografia(): Promise<Radiografia> {
+  const cuenta = async (aplicar: (q: any) => any) => {
+    const { count, error } = await aplicar(
+      supabase.from("vista_municipios").select("id", { count: "exact", head: true }),
+    );
+    if (error) throw error;
+    return count ?? 0;
+  };
+  const [total, sinCentroSanitario, lejosDelBus, sinFarmacia] = await Promise.all([
+    cuenta((q) => q),
+    cuenta((q) => q.eq("num_centros_salud", 0).eq("num_hospitales_consultorios", 0)),
+    cuenta((q) => q.gt("distancia_bus_km", 20)),
+    cuenta((q) => q.eq("num_farmacias", 0)),
+  ]);
+  return { total, sinCentroSanitario, lejosDelBus, sinFarmacia };
+}
+
+export type TipoSugerencia = "dato_incorrecto" | "dato_que_falta" | "otro";
+
+export async function enviarSugerencia(entrada: {
+  municipioId: string | null;
+  tipo: TipoSugerencia;
+  mensaje: string;
+  contacto?: string | null;
+}) {
+  const { error } = await supabase.from("sugerencias_datos").insert({
+    municipio_id: entrada.municipioId,
+    tipo: entrada.tipo,
+    mensaje: entrada.mensaje.trim(),
+    contacto: entrada.contacto?.trim() || null,
+  });
+  if (error) throw error;
+}
+
+export async function fetchFichaPorCodIne(codIne: number): Promise<MunicipioFicha> {
+  const { data, error } = await supabase
+    .from("vista_municipios")
+    .select(FICHA_COLS)
+    .eq("cod_ine", codIne)
     .maybeSingle();
-  if (error) return null;
-  return (data as { ejecutado_en: string } | null)?.ejecutado_en ?? null;
+  if (error) throw error;
+  if (!data) throw new Error("Municipio no encontrado");
+  return data as MunicipioFicha;
 }
 
 /** Escala tipo semáforo del índice de servicios (0-100). */

@@ -551,6 +551,51 @@ export type Database = {
           },
         ]
       }
+      sugerencias_datos: {
+        Row: {
+          contacto: string | null
+          created_at: string
+          estado: Database["public"]["Enums"]["estado_sugerencia"]
+          id: string
+          mensaje: string
+          municipio_id: string | null
+          tipo: Database["public"]["Enums"]["tipo_sugerencia"]
+        }
+        Insert: {
+          contacto?: string | null
+          created_at?: string
+          estado?: Database["public"]["Enums"]["estado_sugerencia"]
+          id?: string
+          mensaje: string
+          municipio_id?: string | null
+          tipo?: Database["public"]["Enums"]["tipo_sugerencia"]
+        }
+        Update: {
+          contacto?: string | null
+          created_at?: string
+          estado?: Database["public"]["Enums"]["estado_sugerencia"]
+          id?: string
+          mensaje?: string
+          municipio_id?: string | null
+          tipo?: Database["public"]["Enums"]["tipo_sugerencia"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sugerencias_datos_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sugerencias_datos_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       sync_log: {
         Row: {
           ejecutado_en: string
@@ -616,6 +661,16 @@ export type Database = {
       }
     }
     Views: {
+      estado_sincronizacion: {
+        Row: {
+          ejecutado_en: string | null
+          fuente: string | null
+          mensaje: string | null
+          ok: boolean | null
+          registros: number | null
+        }
+        Relationships: []
+      }
       medias_comunidad: {
         Row: {
           indice_medio: number | null
@@ -725,7 +780,8 @@ export type Database = {
       set_municipios_geom: { Args: { _rows: Json }; Returns: number }
     }
     Enums: {
-      [_ in never]: never
+      estado_sugerencia: "nueva" | "revisada" | "aplicada"
+      tipo_sugerencia: "dato_incorrecto" | "dato_que_falta" | "otro"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -852,6 +908,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      estado_sugerencia: ["nueva", "revisada", "aplicada"],
+      tipo_sugerencia: ["dato_incorrecto", "dato_que_falta", "otro"],
+    },
   },
 } as const
