@@ -15,6 +15,7 @@ import { Route as MetodologiaRouteImport } from './routes/metodologia'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
 import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
+import { Route as ApiOgCodIneRouteImport } from './routes/api/og/$codIne'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const EmbedCodIneRoute = EmbedCodIneRouteImport.update({
   path: '/embed/$codIne',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOgCodIneRoute = ApiOgCodIneRouteImport.update({
+  id: '/api/og/$codIne',
+  path: '/api/og/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
   id: '/api/public/sync/$fuente',
   path: '/api/public/sync/$fuente',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/politica-cookies'
     | '/politica-privacidad'
     | '/embed/$codIne'
+    | '/api/og/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/politica-cookies'
     | '/politica-privacidad'
     | '/embed/$codIne'
+    | '/api/og/$codIne'
     | '/api/public/sync/$fuente'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/politica-cookies'
     | '/politica-privacidad'
     | '/embed/$codIne'
+    | '/api/og/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
   EmbedCodIneRoute: typeof EmbedCodIneRoute
+  ApiOgCodIneRoute: typeof ApiOgCodIneRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmbedCodIneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/og/$codIne': {
+      id: '/api/og/$codIne'
+      path: '/api/og/$codIne'
+      fullPath: '/api/og/$codIne'
+      preLoaderRoute: typeof ApiOgCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/sync/$fuente': {
       id: '/api/public/sync/$fuente'
       path: '/api/public/sync/$fuente'
@@ -182,18 +202,9 @@ const rootRouteChildren: RootRouteChildren = {
   PoliticaCookiesRoute: PoliticaCookiesRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
   EmbedCodIneRoute: EmbedCodIneRoute,
+  ApiOgCodIneRoute: ApiOgCodIneRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
