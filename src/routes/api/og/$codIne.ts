@@ -39,7 +39,6 @@ export const Route = createFileRoute("/api/og/$codIne")({
         const indice = m.indice_calculado ?? 0;
         const nivel = NIVELES.find((n) => indice >= n.min)!;
 
-        const { ImageResponse } = await import("workers-og");
         const html = `
           <div style="display:flex;flex-direction:column;justify-content:space-between;width:1200px;height:630px;padding:72px;background:#fbf9f5;font-family:sans-serif;">
             <div style="display:flex;flex-direction:column;">
@@ -62,14 +61,25 @@ export const Route = createFileRoute("/api/og/$codIne")({
             </div>
           </div>`;
 
-        return new ImageResponse(html, {
-          width: 1200,
-          height: 630,
-          headers: {
-            // La sincronización es mensual: cacheamos la imagen un día en CDN.
-            "cache-control": "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800",
-          },
-        });
+        // La sincronización es mensual: cacheamos la imagen un día en CDN.
+        const cache = "public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800";
+        try {
+          const { ImageResponse } = await import("workers-og");
+          return new ImageResponse(html, { width: 1200, height: 630, headers: { "cache-control": cache } });
+        } catch (e) {
+          console.error("[og] generación PNG no disponible, se sirve SVG:", e);
+          const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+            <rect width="1200" height="630" fill="#fbf9f5"/>
+            <text x="72" y="140" font-family="sans-serif" font-size="26" letter-spacing="6" fill="#6b6357">PROVINCIA DE ${escapar(m.provincia.toUpperCase())}</text>
+            <text x="72" y="240" font-family="sans-serif" font-size="90" fill="#1f1b16">${escapar(m.nombre)}</text>
+            <text x="72" y="420" font-family="sans-serif" font-size="28" fill="#6b6357">Índice de servicios públicos</text>
+            <text x="72" y="540" font-family="sans-serif" font-size="140" fill="${nivel.color}">${indice.toLocaleString("es-ES", { maximumFractionDigits: 1 })}<tspan font-size="44" fill="#6b6357">/100 · Cobertura ${nivel.etiqueta.toLowerCase()}</tspan></text>
+            <text x="1128" y="560" text-anchor="end" font-family="sans-serif" font-size="34" fill="#1f1b16">MiPuebloEnCyL · datosabiertos.jcyl.es</text>
+          </svg>`;
+          return new Response(svg, {
+            headers: { "content-type": "image/svg+xml; charset=utf-8", "cache-control": cache },
+          });
+        }
       },
     },
   },
