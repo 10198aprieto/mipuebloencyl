@@ -34,6 +34,8 @@ import {
   type MunicipioFicha,
   type Pesos,
 } from "@/lib/cyl";
+import { BotonEmbed } from "@/components/BotonEmbed";
+import { FormularioSugerencia } from "@/components/FormularioSugerencia";
 
 function Comparativa({
   etiqueta,
@@ -410,6 +412,13 @@ export function FichaMunicipio({
             />
           </div>
         )}
+      </div>
+
+      <div className="border-t border-border px-6 pb-6">
+        <div className="flex flex-wrap gap-2 pt-4">
+          <BotonEmbed codIne={m.cod_ine} nombre={m.nombre} />
+        </div>
+        <FormularioSugerencia municipioId={m.id} />
       </div>
     </article>
   );
