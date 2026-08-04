@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
+  id: '/politica-cookies',
+  path: '/politica-cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
@@ -38,12 +44,14 @@ const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
@@ -51,19 +59,30 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/aviso-legal' | '/politica-privacidad' | '/api/public/sync/$fuente'
+    | '/'
+    | '/aviso-legal'
+    | '/politica-cookies'
+    | '/politica-privacidad'
+    | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/aviso-legal' | '/politica-privacidad' | '/api/public/sync/$fuente'
+  to:
+    | '/'
+    | '/aviso-legal'
+    | '/politica-cookies'
+    | '/politica-privacidad'
+    | '/api/public/sync/$fuente'
   id:
     | '__root__'
     | '/'
     | '/aviso-legal'
+    | '/politica-cookies'
     | '/politica-privacidad'
     | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
@@ -71,6 +90,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
+  PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
@@ -89,6 +109,13 @@ declare module '@tanstack/react-router' {
       path: '/aviso-legal'
       fullPath: '/aviso-legal'
       preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-cookies': {
+      id: '/politica-cookies'
+      path: '/politica-cookies'
+      fullPath: '/politica-cookies'
+      preLoaderRoute: typeof PoliticaCookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/politica-privacidad': {
@@ -111,6 +138,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AvisoLegalRoute: AvisoLegalRoute,
+  PoliticaCookiesRoute: PoliticaCookiesRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
