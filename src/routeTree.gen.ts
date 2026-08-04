@@ -14,6 +14,7 @@ import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
 import { Route as MetodologiaRouteImport } from './routes/metodologia'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
+import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
   path: '/politica-privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmbedCodIneRoute = EmbedCodIneRouteImport.update({
+  id: '/embed/$codIne',
+  path: '/embed/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
   id: '/api/public/sync/$fuente',
   path: '/api/public/sync/$fuente',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/embed/$codIne': typeof EmbedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/embed/$codIne': typeof EmbedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/embed/$codIne': typeof EmbedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/embed/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/embed/$codIne'
     | '/api/public/sync/$fuente'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/embed/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   MetodologiaRoute: typeof MetodologiaRoute
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
+  EmbedCodIneRoute: typeof EmbedCodIneRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoliticaPrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/embed/$codIne': {
+      id: '/embed/$codIne'
+      path: '/embed/$codIne'
+      fullPath: '/embed/$codIne'
+      preLoaderRoute: typeof EmbedCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/sync/$fuente': {
       id: '/api/public/sync/$fuente'
       path: '/api/public/sync/$fuente'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   MetodologiaRoute: MetodologiaRoute,
   PoliticaCookiesRoute: PoliticaCookiesRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
+  EmbedCodIneRoute: EmbedCodIneRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
 export const routeTree = rootRouteImport
