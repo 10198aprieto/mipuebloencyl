@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ClientOnly } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { BuscadorMunicipio } from "@/components/BuscadorMunicipio";
+import logoSitio from "@/assets/mipuebloencyl-logo.png.asset.json";
 import { FichaMunicipio } from "@/components/FichaMunicipio";
 import { SelectorPesos } from "@/components/SelectorPesos";
 import { Radiografia } from "@/components/Radiografia";
@@ -58,9 +59,18 @@ function Index() {
     <div className="min-h-screen">
       <header className="border-b border-border bg-card">
         <div className="mx-auto max-w-6xl px-5 py-10">
-          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-            Datos abiertos · Castilla y León
-          </p>
+          <div className="flex items-center gap-4">
+            <img
+              src={logoSitio.url}
+              alt="Logotipo de MiPuebloEnCyL"
+              className="h-16 w-16 rounded-xl object-cover sm:h-20 sm:w-20"
+              width={80}
+              height={80}
+            />
+            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
+              Datos abiertos · Castilla y León
+            </p>
+          </div>
           <h1 className="mt-2 max-w-2xl text-4xl leading-tight sm:text-5xl">
             ¿Cómo de bien atendido está mi pueblo?
           </h1>

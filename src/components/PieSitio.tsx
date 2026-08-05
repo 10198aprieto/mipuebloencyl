@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUltimaActualizacion, fmtFecha } from "@/lib/cyl";
+import logoSitio from "@/assets/mipuebloencyl-logo.png.asset.json";
+import logoJunta from "@/assets/logo-junta-cyl.webp.asset.json";
 
 export function PieSitio() {
   const actualizado = useQuery({
@@ -13,6 +15,24 @@ export function PieSitio() {
   return (
     <footer className="border-t border-border bg-card">
       <div className="mx-auto max-w-6xl space-y-4 px-5 py-8 text-sm text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+          <img
+            src={logoSitio.url}
+            alt="Logotipo de MiPuebloEnCyL"
+            className="h-16 w-auto"
+            width={160}
+            height={64}
+            loading="lazy"
+          />
+          <img
+            src={logoJunta.url}
+            alt="Logotipo de la Junta de Castilla y León, origen de los datos abiertos"
+            className="h-12 w-auto"
+            width={180}
+            height={48}
+            loading="lazy"
+          />
+        </div>
         <p>
           <strong className="text-foreground">Fuente:</strong> Portal de Datos Abiertos de la Junta de Castilla y
           León (municipios, centros docentes, centros y establecimientos sanitarios, farmacias, estaciones de
