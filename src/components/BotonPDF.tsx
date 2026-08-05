@@ -53,7 +53,7 @@ export function BotonPDF({
         y += opts.salto ?? 0;
       };
 
-      linea("MiPuebloEnCyL", { size: 11, bold: true, gris: true });
+      linea("MiPuebloEnCyL", { size: 11, bold: true, gris: true, salto: 12 });
       linea(municipio.nombre, { size: 26, bold: true });
       linea(
         `Provincia de ${municipio.provincia} · ${fmtNum(municipio.poblacion)} habitantes · INE ${municipio.cod_ine}`,
@@ -127,17 +127,19 @@ export function BotonPDF({
         salto: 2,
       });
       for (const [nombre, url] of FUENTES) {
-        doc.setFontSize(9);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(30);
-        if (y > doc.internal.pageSize.getHeight() - M) {
+        if (y > doc.internal.pageSize.getHeight() - M - 24) {
           doc.addPage();
           y = M;
         }
-        doc.text(`• ${nombre}: `, M, y);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(30);
+        doc.text(`• ${nombre}`, M, y);
+        y += 11;
+        doc.setFontSize(7.5);
         doc.setTextColor(20, 80, 160);
-        doc.textWithLink(url, M + doc.getTextWidth(`• ${nombre}: `), y, { url });
-        y += 13;
+        doc.textWithLink(url, M + 10, y, { url });
+        y += 14;
       }
       y += 10;
       linea("Generado con MiPuebloEnCyL · https://mipuebloencyl.lovable.app", { size: 9, gris: true });
