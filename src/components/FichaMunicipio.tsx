@@ -26,6 +26,7 @@ import {
   fetchMediasComunidad,
   fetchMediasProvincia,
   fetchParoProvincia,
+  fetchUltimaActualizacion,
   fmtFecha,
   fmtNum,
   indiceConPesos,
@@ -35,6 +36,7 @@ import {
   type Pesos,
 } from "@/lib/cyl";
 import { BotonEmbed } from "@/components/BotonEmbed";
+import { BotonPDF } from "@/components/BotonPDF";
 import { FormularioSugerencia } from "@/components/FormularioSugerencia";
 
 function Comparativa({
@@ -158,6 +160,11 @@ export function FichaMunicipio({
     queryKey: ["paro-provincia", provincia],
     queryFn: () => fetchParoProvincia(provincia!),
     enabled: !!provincia,
+  });
+  const actualizado = useQuery({
+    queryKey: ["ultima-actualizacion"],
+    queryFn: fetchUltimaActualizacion,
+    staleTime: 1000 * 60 * 30,
   });
 
   if (ficha.isLoading) {
@@ -417,6 +424,7 @@ export function FichaMunicipio({
       <div className="border-t border-border px-6 pb-6">
         <div className="flex flex-wrap gap-2 pt-4">
           <BotonEmbed codIne={m.cod_ine} nombre={m.nombre} />
+          <BotonPDF municipio={m} indice={indice} actualizado={actualizado.data ?? null} />
         </div>
         <FormularioSugerencia municipioId={m.id} />
       </div>
