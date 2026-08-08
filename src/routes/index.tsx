@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ClientOnly } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { BuscadorMunicipio } from "@/components/BuscadorMunicipio";
-import logoSitio from "@/assets/mipuebloencyl-logo.png.asset.json";
+const logoSitio = "/logo-mipuebloencyl.png";
 import { FichaMunicipio } from "@/components/FichaMunicipio";
 import { SelectorPesos } from "@/components/SelectorPesos";
 import { Radiografia } from "@/components/Radiografia";
@@ -36,6 +36,11 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: "https://mipuebloencyl.lovable.app/" },
+      { property: "og:image", content: "https://mipuebloencyl.lovable.app/og-mipuebloencyl.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:image", content: "https://mipuebloencyl.lovable.app/og-mipuebloencyl.jpg" },
     ],
   }),
   component: Index,
@@ -61,7 +66,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-5 py-10">
           <div className="flex items-center gap-4">
             <img
-              src={logoSitio.url}
+              src={logoSitio}
               alt="Logotipo de MiPuebloEnCyL"
               className="h-16 w-16 rounded-xl object-cover sm:h-20 sm:w-20"
               width={80}
