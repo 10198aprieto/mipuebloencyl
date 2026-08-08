@@ -2,8 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUltimaActualizacion, fmtFecha } from "@/lib/cyl";
-import logoSitio from "@/assets/mipuebloencyl-logo.png.asset.json";
-import logoJunta from "@/assets/logo-junta-cyl.webp.asset.json";
+const logoSitio = "/logo-mipuebloencyl.png";
+const logoJunta = "/logo-junta-cyl.webp";
 
 export function PieSitio() {
   const actualizado = useQuery({
@@ -17,7 +17,7 @@ export function PieSitio() {
       <div className="mx-auto max-w-6xl space-y-4 px-5 py-8 text-sm text-muted-foreground">
         <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
           <img
-            src={logoSitio.url}
+            src={logoSitio}
             alt="Logotipo de MiPuebloEnCyL"
             className="h-16 w-auto"
             width={160}
@@ -25,7 +25,7 @@ export function PieSitio() {
             loading="lazy"
           />
           <img
-            src={logoJunta.url}
+            src={logoJunta}
             alt="Logotipo de la Junta de Castilla y León, origen de los datos abiertos"
             className="h-12 w-auto"
             width={180}
