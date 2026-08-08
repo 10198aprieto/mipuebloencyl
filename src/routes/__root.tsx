@@ -92,11 +92,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "MiPuebloEnCyL" },
+      { property: "og:locale", content: "es_ES" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
       { name: "twitter:description", content: "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3e740ed9-20cc-44ea-8114-01d6fe25fa94/id-preview-57ac2b51--68d774e2-6fe6-4035-8eec-d8410fada867.lovable.app-1785687626698.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3e740ed9-20cc-44ea-8114-01d6fe25fa94/id-preview-57ac2b51--68d774e2-6fe6-4035-8eec-d8410fada867.lovable.app-1785687626698.png" },
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },
