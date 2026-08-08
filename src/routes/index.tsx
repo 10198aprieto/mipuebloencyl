@@ -35,13 +35,27 @@ export const Route = createFileRoute("/")({
           "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "MiPuebloEnCyL" },
+      { property: "og:locale", content: "es_ES" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
+      {
+        name: "twitter:description",
+        content:
+          "Compara los servicios públicos de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
+      },
       { property: "og:url", content: "https://mipuebloencyl.lovable.app/" },
       { property: "og:image", content: "https://mipuebloencyl.lovable.app/og-mipuebloencyl.jpg" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
+      { property: "og:image:type", content: "image/jpeg" },
+      {
+        property: "og:image:alt",
+        content: "MiPuebloEnCyL, comparador de servicios públicos de los municipios de Castilla y León",
+      },
       { name: "twitter:image", content: "https://mipuebloencyl.lovable.app/og-mipuebloencyl.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://mipuebloencyl.lovable.app/" }],
   }),
   component: Index,
 });
