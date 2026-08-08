@@ -184,7 +184,7 @@ function Metodologia() {
                 <tr key={e.fuente} className="border-b border-border">
                   <td className="py-2 pr-3 text-foreground">{e.fuente}</td>
                   <td className="py-2 pr-3 tabular-nums">{e.registros?.toLocaleString("es-ES") ?? "—"}</td>
-                  <td className="py-2 pr-3">{e.ok ? "Correcta" : `Error: ${e.mensaje ?? "desconocido"}`}</td>
+                  <td className="py-2 pr-3">{e.ok ? "Correcta" : "Con incidencias"}</td>
                   <td className="py-2">{fmtFecha(e.ejecutado_en)}</td>
                 </tr>
               ))}

@@ -223,7 +223,6 @@ export type EstadoSync = {
   fuente: string;
   registros: number | null;
   ok: boolean;
-  mensaje: string | null;
   ejecutado_en: string;
 };
 
@@ -231,7 +230,7 @@ export type EstadoSync = {
 export async function fetchEstadoSincronizacion(): Promise<EstadoSync[]> {
   const { data, error } = await supabase
     .from("estado_sincronizacion")
-    .select("fuente, registros, ok, mensaje, ejecutado_en")
+    .select("fuente, registros, ok, ejecutado_en")
     .order("fuente");
   if (error) {
     console.error("[cyl] No se pudo leer el estado de sincronización:", error.message);

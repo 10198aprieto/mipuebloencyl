@@ -665,7 +665,6 @@ export type Database = {
         Row: {
           ejecutado_en: string | null
           fuente: string | null
-          mensaje: string | null
           ok: boolean | null
           registros: number | null
         }
