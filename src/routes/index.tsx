@@ -66,7 +66,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-5 py-10">
           <div className="flex items-center gap-4">
             <img
-              src={logoSitio.url}
+              src={logoSitio}
               alt="Logotipo de MiPuebloEnCyL"
               className="h-16 w-16 rounded-xl object-cover sm:h-20 sm:w-20"
               width={80}
