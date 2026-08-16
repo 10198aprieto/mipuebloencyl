@@ -211,12 +211,20 @@ export async function fetchUltimaActualizacion(): Promise<string | null> {
     .select("ejecutado_en")
     .order("ejecutado_en", { ascending: false })
     .limit(1);
-  if (error) {
+  if (!error) {
+    const filas = (data ?? []) as Array<{ ejecutado_en: string | null }>;
+    if (filas[0]?.ejecutado_en) return filas[0].ejecutado_en;
+  } else {
     console.error("[cyl] No se pudo leer la última sincronización:", error.message);
-    return null;
   }
-  const filas = (data ?? []) as Array<{ ejecutado_en: string | null }>;
-  return filas[0]?.ejecutado_en ?? null;
+  // Respaldo: la fecha real de los datos publicados.
+  const alternativa = await supabase
+    .from("vista_municipios")
+    .select("updated_at")
+    .order("updated_at", { ascending: false })
+    .limit(1);
+  const filas2 = (alternativa.data ?? []) as Array<{ updated_at: string | null }>;
+  return filas2[0]?.updated_at ?? null;
 }
 
 export type EstadoSync = {
