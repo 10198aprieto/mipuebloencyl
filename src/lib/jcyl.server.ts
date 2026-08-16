@@ -260,6 +260,14 @@ export async function recalcularIndice(): Promise<SyncResult> {
   return { fuente: "indice", registros: (data as number) ?? 0 };
 }
 
+/** Los "datos curiosos" de portada se precalculan aquí, no en cada carga de página. */
+export async function recalcularCuriosos(): Promise<SyncResult> {
+  const { data, error } = await supabaseAdmin.rpc("recalcular_datos_curiosos" as never);
+  if (error) throw error;
+  await logSync("curiosos", (data as number) ?? 0);
+  return { fuente: "curiosos", registros: (data as number) ?? 0 };
+}
+
 export const SYNC_TASKS: Record<string, () => Promise<SyncResult>> = {
   municipios: syncMunicipios,
   educacion: syncEducacion,
@@ -267,11 +275,12 @@ export const SYNC_TASKS: Record<string, () => Promise<SyncResult>> = {
   transporte: syncTransporte,
   aire: syncCalidadAire,
   indice: recalcularIndice,
+  curiosos: recalcularCuriosos,
 };
 
 export async function syncTodo(): Promise<SyncResult[]> {
   const out: SyncResult[] = [];
-  for (const key of ["municipios", "educacion", "salud", "transporte", "aire", "indice"]) {
+  for (const key of ["municipios", "educacion", "salud", "transporte", "aire", "indice", "curiosos"]) {
     out.push(await SYNC_TASKS[key]!());
   }
   return out;
