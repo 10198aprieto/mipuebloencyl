@@ -318,3 +318,155 @@ export function quitarAcentos(t: string) {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 }
+/* ------------------------------------------------------------------ *
+ * Datos curiosos, visitas y frases "wrapped"
+ * ------------------------------------------------------------------ */
+
+export type DatoCurioso = {
+  clave: string;
+  orden: number;
+  icono: string;
+  titulo: string;
+  texto: string;
+  municipio_id: string | null;
+  cod_ine: number | null;
+  municipio_nombre: string | null;
+};
+
+/** Hallazgos precalculados en la sincronización (tabla datos_curiosos). */
+export async function fetchDatosCuriosos(): Promise<DatoCurioso[]> {
+  const { data, error } = await supabase
+    .from("datos_curiosos")
+    .select("clave, orden, icono, titulo, texto, municipio_id, cod_ine, municipio_nombre")
+    .order("orden");
+  if (error) {
+    console.error("[cyl] No se pudieron leer los datos curiosos:", error.message);
+    return [];
+  }
+  return (data ?? []) as DatoCurioso[];
+}
+
+export type VisitasResumen = { total: number; semana: number; municipios_semana: number };
+
+export async function fetchVisitasResumen(): Promise<VisitasResumen> {
+  const { data, error } = await supabase.rpc("visitas_resumen" as never);
+  if (error) {
+    console.error("[cyl] No se pudo leer el contador de visitas:", error.message);
+    return { total: 0, semana: 0, municipios_semana: 0 };
+  }
+  return (data ?? { total: 0, semana: 0, municipios_semana: 0 }) as unknown as VisitasResumen;
+}
+
+/** Suma anónima de consultas de un municipio: solo un contador agregado por día. */
+export async function registrarVisita(municipioId: string): Promise<number> {
+  const { data, error } = await supabase.rpc("registrar_visita" as never, {
+    _municipio_id: municipioId,
+  } as never);
+  if (error) {
+    console.error("[cyl] No se pudo registrar la visita:", error.message);
+    return 0;
+  }
+  return Number(data ?? 0);
+}
+
+export type FraseWrapped = { texto: string; destacado: string };
+
+function percentil(valores: number[], valor: number) {
+  if (valores.length === 0) return null;
+  const pordebajo = valores.filter((v) => v < valor).length;
+  return Math.round((pordebajo / valores.length) * 100);
+}
+
+const ETIQUETAS_CAT: Record<ClaveCategoria, string> = {
+  sub_educacion: "educación",
+  sub_salud: "sanidad",
+  sub_movilidad: "movilidad",
+  sub_social: "servicios sociales",
+  sub_cultura: "cultura y ocio",
+  sub_comercio: "comercio de proximidad",
+};
+
+/** Genera 4 frases con gancho comparando el municipio con su provincia y la comunidad. */
+export function frasesWrapped(
+  m: MunicipioFicha,
+  todos: PuntoMapa[],
+  pesos: Pesos = PESOS_POR_DEFECTO,
+): FraseWrapped[] {
+  const deProvincia = todos.filter((p) => p.provincia === m.provincia);
+  const frases: Array<FraseWrapped & { fuerza: number }> = [];
+
+  const indice = indiceConPesos(m, pesos);
+  if (indice !== null) {
+    const idxCyL = todos.map((p) => indiceConPesos(p, pesos)).filter((v): v is number => v !== null);
+    const p = percentil(idxCyL, indice);
+    if (p !== null) {
+      frases.push({
+        destacado: p >= 50 ? `Top ${Math.max(1, 100 - p)} %` : `${p} %`,
+        texto:
+          p >= 50
+            ? `${m.nombre} está entre el ${Math.max(1, 100 - p)} % de municipios mejor atendidos de Castilla y León.`
+            : `${m.nombre} supera al ${p} % de los municipios de Castilla y León en servicios públicos.`,
+        fuerza: Math.abs(p - 50) + 10,
+      });
+    }
+  }
+
+  for (const c of CATEGORIAS) {
+    const valor = m[c.clave];
+    if (valor === null || valor === undefined) continue;
+    const prov = deProvincia.map((x) => x[c.clave]).filter((v): v is number => v !== null);
+    const p = percentil(prov, valor);
+    if (p === null) continue;
+    frases.push({
+      destacado: p >= 50 ? `Top ${Math.max(1, 100 - p)} %` : `Últ. ${Math.max(1, p)} %`,
+      texto:
+        p >= 50
+          ? `Está entre el ${Math.max(1, 100 - p)} % con mejor ${ETIQUETAS_CAT[c.clave]} de la provincia de ${m.provincia}.`
+          : `Solo el ${Math.max(1, p)} % de los municipios de ${m.provincia} tiene peor ${ETIQUETAS_CAT[c.clave]}.`,
+      fuerza: Math.abs(p - 50),
+    });
+  }
+
+  if (m.distancia_bus_km !== null) {
+    const d = m.distancia_bus_km;
+    frases.push({
+      destacado: `${d.toLocaleString("es-ES", { maximumFractionDigits: 1 })} km`,
+      texto:
+        d > 15
+          ? `La estación de autobuses más cercana está a ${d.toLocaleString("es-ES", { maximumFractionDigits: 1 })} km: coger el bus aquí es toda una expedición.`
+          : `Tiene una estación de autobuses a solo ${d.toLocaleString("es-ES", { maximumFractionDigits: 1 })} km.`,
+      fuerza: d > 15 ? 45 : 8,
+    });
+  }
+
+  if (m.num_farmacias === 0) {
+    frases.push({
+      destacado: "0 farmacias",
+      texto: `${m.nombre} no cuenta con ninguna farmacia registrada dentro del municipio.`,
+      fuerza: 40,
+    });
+  } else if (m.num_farmacias >= 3) {
+    frases.push({
+      destacado: `${m.num_farmacias} farmacias`,
+      texto: `Cuenta con ${m.num_farmacias} farmacias abiertas en el municipio.`,
+      fuerza: 20,
+    });
+  }
+
+  const cultura = m.num_museos + m.num_bibliotecas_bibliobuses;
+  if (cultura > 0 && m.poblacion) {
+    const ratio = (cultura * 1000) / m.poblacion;
+    const ratios = deProvincia.length ? [] : [];
+    void ratios;
+    frases.push({
+      destacado: `${cultura} espacio${cultura === 1 ? "" : "s"}`,
+      texto: `Suma ${cultura} museo${cultura === 1 ? "" : "s"} y biblioteca${cultura === 1 ? "" : "s"} para ${m.poblacion.toLocaleString("es-ES")} habitantes (${ratio.toLocaleString("es-ES", { maximumFractionDigits: 1 })} por cada mil vecinos).`,
+      fuerza: Math.min(35, ratio * 6),
+    });
+  }
+
+  return frases
+    .sort((a, b) => b.fuerza - a.fuerza)
+    .slice(0, 4)
+    .map(({ texto, destacado }) => ({ texto, destacado }));
+}
