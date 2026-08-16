@@ -125,6 +125,57 @@ export type Database = {
         }
         Relationships: []
       }
+      datos_curiosos: {
+        Row: {
+          clave: string
+          cod_ine: number | null
+          icono: string
+          municipio_id: string | null
+          municipio_nombre: string | null
+          orden: number
+          texto: string
+          titulo: string
+          updated_at: string
+        }
+        Insert: {
+          clave: string
+          cod_ine?: number | null
+          icono?: string
+          municipio_id?: string | null
+          municipio_nombre?: string | null
+          orden?: number
+          texto: string
+          titulo: string
+          updated_at?: string
+        }
+        Update: {
+          clave?: string
+          cod_ine?: number | null
+          icono?: string
+          municipio_id?: string | null
+          municipio_nombre?: string | null
+          orden?: number
+          texto?: string
+          titulo?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "datos_curiosos_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "datos_curiosos_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       estaciones_aire: {
         Row: {
           contaminante: string | null
@@ -659,6 +710,39 @@ export type Database = {
           },
         ]
       }
+      visitas_municipio: {
+        Row: {
+          contador: number
+          fecha: string
+          municipio_id: string
+        }
+        Insert: {
+          contador?: number
+          fecha?: string
+          municipio_id: string
+        }
+        Update: {
+          contador?: number
+          fecha?: string
+          municipio_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visitas_municipio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visitas_municipio_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       estado_sincronizacion: {
@@ -775,8 +859,11 @@ export type Database = {
       }
       municipios_geojson: { Args: never; Returns: Json }
       norm_txt: { Args: { t: string }; Returns: string }
+      recalcular_datos_curiosos: { Args: never; Returns: number }
       recalcular_indice_servicios: { Args: never; Returns: number }
+      registrar_visita: { Args: { _municipio_id: string }; Returns: number }
       set_municipios_geom: { Args: { _rows: Json }; Returns: number }
+      visitas_resumen: { Args: never; Returns: Json }
     }
     Enums: {
       estado_sugerencia: "nueva" | "revisada" | "aplicada"
