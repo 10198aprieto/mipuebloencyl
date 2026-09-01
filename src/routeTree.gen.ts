@@ -17,6 +17,7 @@ import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privac
 import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
 import { Route as WrappedCodIneRouteImport } from './routes/wrapped.$codIne'
 import { Route as ApiOgCodIneRouteImport } from './routes/api/og/$codIne'
+import { Route as ApiOgWrappedCodIneRouteImport } from './routes/api/og/wrapped/$codIne'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,11 @@ const ApiOgCodIneRoute = ApiOgCodIneRouteImport.update({
   path: '/api/og/$codIne',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOgWrappedCodIneRoute = ApiOgWrappedCodIneRouteImport.update({
+  id: '/api/og/wrapped/$codIne',
+  path: '/api/og/wrapped/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
   id: '/api/public/sync/$fuente',
   path: '/api/public/sync/$fuente',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/embed/$codIne': typeof EmbedCodIneRoute
   '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
+  '/api/og/wrapped/$codIne': typeof ApiOgWrappedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/embed/$codIne': typeof EmbedCodIneRoute
   '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
+  '/api/og/wrapped/$codIne': typeof ApiOgWrappedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/embed/$codIne': typeof EmbedCodIneRoute
   '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
+  '/api/og/wrapped/$codIne': typeof ApiOgWrappedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/embed/$codIne'
     | '/wrapped/$codIne'
     | '/api/og/$codIne'
+    | '/api/og/wrapped/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/embed/$codIne'
     | '/wrapped/$codIne'
     | '/api/og/$codIne'
+    | '/api/og/wrapped/$codIne'
     | '/api/public/sync/$fuente'
   id:
     | '__root__'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/embed/$codIne'
     | '/wrapped/$codIne'
     | '/api/og/$codIne'
+    | '/api/og/wrapped/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +156,7 @@ export interface RootRouteChildren {
   EmbedCodIneRoute: typeof EmbedCodIneRoute
   WrappedCodIneRoute: typeof WrappedCodIneRoute
   ApiOgCodIneRoute: typeof ApiOgCodIneRoute
+  ApiOgWrappedCodIneRoute: typeof ApiOgWrappedCodIneRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
 
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiOgCodIneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/og/wrapped/$codIne': {
+      id: '/api/og/wrapped/$codIne'
+      path: '/api/og/wrapped/$codIne'
+      fullPath: '/api/og/wrapped/$codIne'
+      preLoaderRoute: typeof ApiOgWrappedCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/sync/$fuente': {
       id: '/api/public/sync/$fuente'
       path: '/api/public/sync/$fuente'
@@ -224,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   EmbedCodIneRoute: EmbedCodIneRoute,
   WrappedCodIneRoute: WrappedCodIneRoute,
   ApiOgCodIneRoute: ApiOgCodIneRoute,
+  ApiOgWrappedCodIneRoute: ApiOgWrappedCodIneRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
 export const routeTree = rootRouteImport
