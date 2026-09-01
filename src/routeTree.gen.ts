@@ -11,11 +11,15 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AvisoLegalRouteImport } from './routes/aviso-legal'
+import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as MetodologiaRouteImport } from './routes/metodologia'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
+import { Route as WrappedCodIneRouteImport } from './routes/wrapped.$codIne'
 import { Route as ApiOgCodIneRouteImport } from './routes/api/og/$codIne'
+import { Route as ApiOgWrappedCodIneRouteImport } from './routes/api/og/wrapped/$codIne'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
 const IndexRoute = IndexRouteImport.update({
@@ -26,6 +30,11 @@ const IndexRoute = IndexRouteImport.update({
 const AvisoLegalRoute = AvisoLegalRouteImport.update({
   id: '/aviso-legal',
   path: '/aviso-legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompararRoute = CompararRouteImport.update({
+  id: '/comparar',
+  path: '/comparar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MetodologiaRoute = MetodologiaRouteImport.update({
@@ -43,14 +52,29 @@ const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
   path: '/politica-privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmbedCodIneRoute = EmbedCodIneRouteImport.update({
   id: '/embed/$codIne',
   path: '/embed/$codIne',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WrappedCodIneRoute = WrappedCodIneRouteImport.update({
+  id: '/wrapped/$codIne',
+  path: '/wrapped/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOgCodIneRoute = ApiOgCodIneRouteImport.update({
   id: '/api/og/$codIne',
   path: '/api/og/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOgWrappedCodIneRoute = ApiOgWrappedCodIneRouteImport.update({
+  id: '/api/og/wrapped/$codIne',
+  path: '/api/og/wrapped/$codIne',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
@@ -62,32 +86,44 @@ const ApiPublicSyncFuenteRoute = ApiPublicSyncFuenteRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/comparar': typeof CompararRoute
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
+  '/api/og/wrapped/$codIne': typeof ApiOgWrappedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/comparar': typeof CompararRoute
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
+  '/api/og/wrapped/$codIne': typeof ApiOgWrappedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/aviso-legal': typeof AvisoLegalRoute
+  '/comparar': typeof CompararRoute
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
+  '/api/og/wrapped/$codIne': typeof ApiOgWrappedCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
 export interface FileRouteTypes {
@@ -95,42 +131,58 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/aviso-legal'
+    | '/comparar'
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/sitemap.xml'
     | '/embed/$codIne'
+    | '/wrapped/$codIne'
     | '/api/og/$codIne'
+    | '/api/og/wrapped/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/aviso-legal'
+    | '/comparar'
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/sitemap.xml'
     | '/embed/$codIne'
+    | '/wrapped/$codIne'
     | '/api/og/$codIne'
+    | '/api/og/wrapped/$codIne'
     | '/api/public/sync/$fuente'
   id:
     | '__root__'
     | '/'
     | '/aviso-legal'
+    | '/comparar'
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/sitemap.xml'
     | '/embed/$codIne'
+    | '/wrapped/$codIne'
     | '/api/og/$codIne'
+    | '/api/og/wrapped/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AvisoLegalRoute: typeof AvisoLegalRoute
+  CompararRoute: typeof CompararRoute
   MetodologiaRoute: typeof MetodologiaRoute
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   EmbedCodIneRoute: typeof EmbedCodIneRoute
+  WrappedCodIneRoute: typeof WrappedCodIneRoute
   ApiOgCodIneRoute: typeof ApiOgCodIneRoute
+  ApiOgWrappedCodIneRoute: typeof ApiOgWrappedCodIneRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
 
@@ -148,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/aviso-legal'
       fullPath: '/aviso-legal'
       preLoaderRoute: typeof AvisoLegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comparar': {
+      id: '/comparar'
+      path: '/comparar'
+      fullPath: '/comparar'
+      preLoaderRoute: typeof CompararRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/metodologia': {
@@ -171,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoliticaPrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/embed/$codIne': {
       id: '/embed/$codIne'
       path: '/embed/$codIne'
@@ -178,11 +244,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmbedCodIneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wrapped/$codIne': {
+      id: '/wrapped/$codIne'
+      path: '/wrapped/$codIne'
+      fullPath: '/wrapped/$codIne'
+      preLoaderRoute: typeof WrappedCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/og/$codIne': {
       id: '/api/og/$codIne'
       path: '/api/og/$codIne'
       fullPath: '/api/og/$codIne'
       preLoaderRoute: typeof ApiOgCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/og/wrapped/$codIne': {
+      id: '/api/og/wrapped/$codIne'
+      path: '/api/og/wrapped/$codIne'
+      fullPath: '/api/og/wrapped/$codIne'
+      preLoaderRoute: typeof ApiOgWrappedCodIneRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/sync/$fuente': {
@@ -198,11 +278,15 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AvisoLegalRoute: AvisoLegalRoute,
+  CompararRoute: CompararRoute,
   MetodologiaRoute: MetodologiaRoute,
   PoliticaCookiesRoute: PoliticaCookiesRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   EmbedCodIneRoute: EmbedCodIneRoute,
+  WrappedCodIneRoute: WrappedCodIneRoute,
   ApiOgCodIneRoute: ApiOgCodIneRoute,
+  ApiOgWrappedCodIneRoute: ApiOgWrappedCodIneRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
 export const routeTree = rootRouteImport

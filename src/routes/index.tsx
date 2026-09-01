@@ -7,9 +7,11 @@ const logoSitio = "/logo-mipuebloencyl.png";
 import { FichaMunicipio } from "@/components/FichaMunicipio";
 import { SelectorPesos } from "@/components/SelectorPesos";
 import { Radiografia } from "@/components/Radiografia";
+import { DatosCuriosos } from "@/components/DatosCuriosos";
 import {
   fetchGeoMunicipios,
   fetchPuntosMapa,
+  fetchVisitasResumen,
   indiceConPesos,
   nivelIndice,
   PESOS_POR_DEFECTO,
@@ -67,6 +69,7 @@ function Index() {
   const [pesos, setPesos] = useState<Pesos>({ ...PESOS_POR_DEFECTO });
   const puntos = useQuery({ queryKey: ["puntos-mapa"], queryFn: fetchPuntosMapa, staleTime: 1000 * 60 * 60 });
   const geo = useQuery({ queryKey: ["geo-municipios"], queryFn: fetchGeoMunicipios, staleTime: 1000 * 60 * 60 * 24 });
+  const visitas = useQuery({ queryKey: ["visitas-resumen"], queryFn: fetchVisitasResumen, staleTime: 1000 * 60 * 5 });
   const lista = puntos.data ?? [];
 
   const indices = useMemo(
@@ -109,12 +112,30 @@ function Index() {
                 ? "Cargando municipios…"
                 : `${lista.length.toLocaleString("es-ES")} municipios disponibles. También puedes tocar un punto del mapa.`}
             </p>
+            {!!visitas.data?.semana && (
+              <p className="mt-2 text-sm font-medium text-primary">
+                {visitas.data.municipios_semana.toLocaleString("es-ES")} municipios consultados esta semana ·{" "}
+                {visitas.data.total.toLocaleString("es-ES")} consultas en total
+              </p>
+            )}
+            <p className="mt-3">
+              <Link to="/comparar" className="text-sm font-medium text-primary underline underline-offset-4">
+                Comparar dos municipios cara a cara
+              </Link>
+            </p>
           </div>
         </div>
       </header>
 
       <main id="contenido-principal" className="mx-auto max-w-6xl space-y-8 px-5 py-8">
         <Radiografia puntos={lista} pesos={pesos} onSelect={setSeleccionado} />
+
+        <DatosCuriosos
+          onSelectCodIne={(cod) => {
+            const punto = lista.find((p) => p.cod_ine === cod);
+            if (punto) setSeleccionado(punto);
+          }}
+        />
 
         <SelectorPesos pesos={pesos} onChange={setPesos} />
 

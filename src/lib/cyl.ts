@@ -50,6 +50,7 @@ export type Subindices = {
 
 export type PuntoMapa = {
   id: string;
+  cod_ine: number;
   nombre: string;
   provincia: string;
   latitud: number;
@@ -138,7 +139,7 @@ export async function fetchPuntosMapa(): Promise<PuntoMapa[]> {
   for (let from = 0; ; from += 1000) {
     const { data, error } = await supabase
       .from("vista_municipios")
-      .select(`id, nombre, provincia, latitud, longitud, indice_calculado, ${SUB_COLS}`)
+      .select(`id, cod_ine, nombre, provincia, latitud, longitud, indice_calculado, ${SUB_COLS}`)
       .not("latitud", "is", null)
       .order("nombre")
       .range(from, from + 999);
