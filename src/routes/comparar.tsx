@@ -15,7 +15,7 @@ import {
 
 const BASE = "https://mipuebloencyl.lovable.app";
 
-type Busqueda = { a?: number; b?: number };
+type Busqueda = { a?: number | undefined; b?: number | undefined };
 
 export const Route = createFileRoute("/comparar")({
   validateSearch: (search: Record<string, unknown>): Busqueda => ({
