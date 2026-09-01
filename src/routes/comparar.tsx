@@ -75,13 +75,11 @@ function Comparar() {
   const [copiado, setCopiado] = useState(false);
 
   // Los códigos INE viajan en la URL para poder compartir la comparación.
-  const porCodIne = useMemo(() => new Map(lista.map((p) => [p.id, p])), [lista]);
-  void porCodIne;
-  const uno = useMemo(() => lista.find((p) => hash(p) === a) ?? null, [lista, a]);
-  const dos = useMemo(() => lista.find((p) => hash(p) === b) ?? null, [lista, b]);
+  const uno = useMemo(() => lista.find((p) => p.cod_ine === a) ?? null, [lista, a]);
+  const dos = useMemo(() => lista.find((p) => p.cod_ine === b) ?? null, [lista, b]);
 
   function elegir(lado: "a" | "b", m: PuntoMapa) {
-    navigate({ search: (prev: Busqueda) => ({ ...prev, [lado]: hash(m) }) });
+    navigate({ search: (prev: Busqueda) => ({ ...prev, [lado]: m.cod_ine }) });
   }
 
   async function copiar() {
@@ -196,9 +194,4 @@ function Comparar() {
       </Link>
     </main>
   );
-}
-
-/** Identificamos cada municipio en la URL por su código INE cuando está disponible. */
-function hash(m: PuntoMapa & { cod_ine?: number }) {
-  return (m as { cod_ine?: number }).cod_ine ?? undefined;
 }
