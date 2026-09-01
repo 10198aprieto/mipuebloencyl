@@ -12,7 +12,7 @@ const ESTATICAS = [
 ];
 
 // Sitemap con las rutas públicas y una entrada por municipio (/wrapped/{cod_ine}).
-export const Route = createFileRoute("/sitemap/xml")({
+export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {

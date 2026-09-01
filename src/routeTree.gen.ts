@@ -15,6 +15,7 @@ import { Route as CompararRouteImport } from './routes/comparar'
 import { Route as MetodologiaRouteImport } from './routes/metodologia'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
 import { Route as WrappedCodIneRouteImport } from './routes/wrapped.$codIne'
 import { Route as ApiOgCodIneRouteImport } from './routes/api/og/$codIne'
@@ -51,6 +52,11 @@ const PoliticaPrivacidadRoute = PoliticaPrivacidadRouteImport.update({
   path: '/politica-privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmbedCodIneRoute = EmbedCodIneRouteImport.update({
   id: '/embed/$codIne',
   path: '/embed/$codIne',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
   '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
   '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/metodologia': typeof MetodologiaRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
   '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/sitemap.xml'
     | '/embed/$codIne'
     | '/wrapped/$codIne'
     | '/api/og/$codIne'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/sitemap.xml'
     | '/embed/$codIne'
     | '/wrapped/$codIne'
     | '/api/og/$codIne'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/metodologia'
     | '/politica-cookies'
     | '/politica-privacidad'
+    | '/sitemap.xml'
     | '/embed/$codIne'
     | '/wrapped/$codIne'
     | '/api/og/$codIne'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   MetodologiaRoute: typeof MetodologiaRoute
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   EmbedCodIneRoute: typeof EmbedCodIneRoute
   WrappedCodIneRoute: typeof WrappedCodIneRoute
   ApiOgCodIneRoute: typeof ApiOgCodIneRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoliticaPrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/embed/$codIne': {
       id: '/embed/$codIne'
       path: '/embed/$codIne'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   MetodologiaRoute: MetodologiaRoute,
   PoliticaCookiesRoute: PoliticaCookiesRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   EmbedCodIneRoute: EmbedCodIneRoute,
   WrappedCodIneRoute: WrappedCodIneRoute,
   ApiOgCodIneRoute: ApiOgCodIneRoute,
