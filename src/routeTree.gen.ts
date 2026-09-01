@@ -15,6 +15,7 @@ import { Route as MetodologiaRouteImport } from './routes/metodologia'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as PoliticaPrivacidadRouteImport } from './routes/politica-privacidad'
 import { Route as EmbedCodIneRouteImport } from './routes/embed.$codIne'
+import { Route as WrappedCodIneRouteImport } from './routes/wrapped.$codIne'
 import { Route as ApiOgCodIneRouteImport } from './routes/api/og/$codIne'
 import { Route as ApiPublicSyncFuenteRouteImport } from './routes/api/public/sync/$fuente'
 
@@ -48,6 +49,11 @@ const EmbedCodIneRoute = EmbedCodIneRouteImport.update({
   path: '/embed/$codIne',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WrappedCodIneRoute = WrappedCodIneRouteImport.update({
+  id: '/wrapped/$codIne',
+  path: '/wrapped/$codIne',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOgCodIneRoute = ApiOgCodIneRouteImport.update({
   id: '/api/og/$codIne',
   path: '/api/og/$codIne',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/politica-cookies': typeof PoliticaCookiesRoute
   '/politica-privacidad': typeof PoliticaPrivacidadRoute
   '/embed/$codIne': typeof EmbedCodIneRoute
+  '/wrapped/$codIne': typeof WrappedCodIneRoute
   '/api/og/$codIne': typeof ApiOgCodIneRoute
   '/api/public/sync/$fuente': typeof ApiPublicSyncFuenteRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/politica-cookies'
     | '/politica-privacidad'
     | '/embed/$codIne'
+    | '/wrapped/$codIne'
     | '/api/og/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/politica-cookies'
     | '/politica-privacidad'
     | '/embed/$codIne'
+    | '/wrapped/$codIne'
     | '/api/og/$codIne'
     | '/api/public/sync/$fuente'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/politica-cookies'
     | '/politica-privacidad'
     | '/embed/$codIne'
+    | '/wrapped/$codIne'
     | '/api/og/$codIne'
     | '/api/public/sync/$fuente'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   PoliticaPrivacidadRoute: typeof PoliticaPrivacidadRoute
   EmbedCodIneRoute: typeof EmbedCodIneRoute
+  WrappedCodIneRoute: typeof WrappedCodIneRoute
   ApiOgCodIneRoute: typeof ApiOgCodIneRoute
   ApiPublicSyncFuenteRoute: typeof ApiPublicSyncFuenteRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmbedCodIneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/wrapped/$codIne': {
+      id: '/wrapped/$codIne'
+      path: '/wrapped/$codIne'
+      fullPath: '/wrapped/$codIne'
+      preLoaderRoute: typeof WrappedCodIneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/og/$codIne': {
       id: '/api/og/$codIne'
       path: '/api/og/$codIne'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   PoliticaCookiesRoute: PoliticaCookiesRoute,
   PoliticaPrivacidadRoute: PoliticaPrivacidadRoute,
   EmbedCodIneRoute: EmbedCodIneRoute,
+  WrappedCodIneRoute: WrappedCodIneRoute,
   ApiOgCodIneRoute: ApiOgCodIneRoute,
   ApiPublicSyncFuenteRoute: ApiPublicSyncFuenteRoute,
 }
