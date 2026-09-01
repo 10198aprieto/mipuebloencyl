@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import {
   Bus,
   GraduationCap,
@@ -38,6 +39,9 @@ import {
 import { BotonEmbed } from "@/components/BotonEmbed";
 import { BotonPDF } from "@/components/BotonPDF";
 import { FormularioSugerencia } from "@/components/FormularioSugerencia";
+import { TarjetaWrapped } from "@/components/TarjetaWrapped";
+import { registrarVisita } from "@/lib/cyl";
+import { Eye, GitCompareArrows } from "lucide-react";
 
 function Comparativa({
   etiqueta,
@@ -161,6 +165,17 @@ export function FichaMunicipio({
     queryFn: () => fetchParoProvincia(provincia!),
     enabled: !!provincia,
   });
+  const [visitas, setVisitas] = useState<number | null>(null);
+  // Contador anónimo: solo se suma 1 al total agregado del municipio, sin datos personales.
+  useEffect(() => {
+    let vivo = true;
+    registrarVisita(municipioId).then((n) => {
+      if (vivo && n > 0) setVisitas(n);
+    });
+    return () => {
+      vivo = false;
+    };
+  }, [municipioId]);
   const actualizado = useQuery({
     queryKey: ["ultima-actualizacion"],
     queryFn: fetchUltimaActualizacion,
@@ -422,10 +437,23 @@ export function FichaMunicipio({
       </div>
 
       <div className="border-t border-border px-6 pb-6">
-        <div className="flex flex-wrap gap-2 pt-4">
+        <div className="flex flex-wrap items-center gap-2 pt-4">
+          <TarjetaWrapped municipio={m} pesos={pesos} />
+          <Link
+            to="/comparar"
+            search={{ a: m.cod_ine }}
+            className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-medium"
+          >
+            <GitCompareArrows className="size-4" aria-hidden /> Comparar con otro municipio
+          </Link>
           <BotonEmbed codIne={m.cod_ine} nombre={m.nombre} />
           <BotonPDF municipio={m} indice={indice} actualizado={actualizado.data ?? null} />
         </div>
+        {visitas !== null && (
+          <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Eye className="size-3.5" aria-hidden /> Consultado {fmtNum(visitas)} {visitas === 1 ? "vez" : "veces"}
+          </p>
+        )}
         <FormularioSugerencia municipioId={m.id} />
       </div>
     </article>
