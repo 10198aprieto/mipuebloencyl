@@ -311,6 +311,225 @@ export type Database = {
           },
         ]
       }
+      municipio_agro: {
+        Row: {
+          anyo: number | null
+          cod_ine: number
+          created_at: string
+          explotaciones: number | null
+          fuente: string
+          municipio_id: string
+          sau_hectareas: number | null
+          unidades_ganaderas: number | null
+          updated_at: string
+        }
+        Insert: {
+          anyo?: number | null
+          cod_ine: number
+          created_at?: string
+          explotaciones?: number | null
+          fuente?: string
+          municipio_id: string
+          sau_hectareas?: number | null
+          unidades_ganaderas?: number | null
+          updated_at?: string
+        }
+        Update: {
+          anyo?: number | null
+          cod_ine?: number
+          created_at?: string
+          explotaciones?: number | null
+          fuente?: string
+          municipio_id?: string
+          sau_hectareas?: number | null
+          unidades_ganaderas?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "municipio_agro_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "municipio_agro_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      municipio_geografia: {
+        Row: {
+          altitud_m: number | null
+          cod_ine: number
+          created_at: string
+          fuente_altitud: string | null
+          fuente_coordenadas: string | null
+          fuente_superficie: string | null
+          latitud: number | null
+          longitud: number | null
+          municipio_id: string
+          nucleo_referencia: string | null
+          superficie_km2: number | null
+          updated_at: string
+        }
+        Insert: {
+          altitud_m?: number | null
+          cod_ine: number
+          created_at?: string
+          fuente_altitud?: string | null
+          fuente_coordenadas?: string | null
+          fuente_superficie?: string | null
+          latitud?: number | null
+          longitud?: number | null
+          municipio_id: string
+          nucleo_referencia?: string | null
+          superficie_km2?: number | null
+          updated_at?: string
+        }
+        Update: {
+          altitud_m?: number | null
+          cod_ine?: number
+          created_at?: string
+          fuente_altitud?: string | null
+          fuente_coordenadas?: string | null
+          fuente_superficie?: string | null
+          latitud?: number | null
+          longitud?: number | null
+          municipio_id?: string
+          nucleo_referencia?: string | null
+          superficie_km2?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "municipio_geografia_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "municipio_geografia_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: true
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      municipio_imagenes: {
+        Row: {
+          archivo: string | null
+          autor: string | null
+          cod_ine: number
+          created_at: string
+          fuente: string
+          licencia: string | null
+          licencia_url: string | null
+          municipio_id: string
+          pagina_descripcion: string | null
+          tipo: string
+          updated_at: string
+          url: string
+          url_thumb: string | null
+        }
+        Insert: {
+          archivo?: string | null
+          autor?: string | null
+          cod_ine: number
+          created_at?: string
+          fuente?: string
+          licencia?: string | null
+          licencia_url?: string | null
+          municipio_id: string
+          pagina_descripcion?: string | null
+          tipo: string
+          updated_at?: string
+          url: string
+          url_thumb?: string | null
+        }
+        Update: {
+          archivo?: string | null
+          autor?: string | null
+          cod_ine?: number
+          created_at?: string
+          fuente?: string
+          licencia?: string | null
+          licencia_url?: string | null
+          municipio_id?: string
+          pagina_descripcion?: string | null
+          tipo?: string
+          updated_at?: string
+          url?: string
+          url_thumb?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "municipio_imagenes_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "municipio_imagenes_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      municipio_poblacion_historica: {
+        Row: {
+          anyo: number
+          cod_ine: number
+          created_at: string
+          fuente: string
+          municipio_id: string
+          poblacion: number | null
+          updated_at: string
+        }
+        Insert: {
+          anyo: number
+          cod_ine: number
+          created_at?: string
+          fuente?: string
+          municipio_id: string
+          poblacion?: number | null
+          updated_at?: string
+        }
+        Update: {
+          anyo?: number
+          cod_ine?: number
+          created_at?: string
+          fuente?: string
+          municipio_id?: string
+          poblacion?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "municipio_poblacion_historica_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "municipios"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "municipio_poblacion_historica_municipio_id_fkey"
+            columns: ["municipio_id"]
+            isOneToOne: false
+            referencedRelation: "vista_municipios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       municipios: {
         Row: {
           cod_ine: number
