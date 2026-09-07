@@ -327,6 +327,82 @@ export function quitarAcentos(t: string) {
     .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 }
+
+/* ------------------------------------------------------------------ *
+ * Datos externos: INE, IGN/CNIG, Wikidata y Wikimedia Commons
+ * ------------------------------------------------------------------ */
+
+export type Geografia = {
+  latitud: number | null;
+  longitud: number | null;
+  altitud_m: number | null;
+  superficie_km2: number | null;
+  nucleo_referencia: string | null;
+  fuente_coordenadas: string | null;
+  fuente_altitud: string | null;
+  fuente_superficie: string | null;
+};
+
+export type Agro = {
+  anyo: number | null;
+  explotaciones: number | null;
+  sau_hectareas: number | null;
+  unidades_ganaderas: number | null;
+  fuente: string;
+};
+
+export type PoblacionAnyo = { anyo: number; poblacion: number | null };
+
+export type ImagenMunicipio = {
+  tipo: string;
+  url: string;
+  url_thumb: string | null;
+  pagina_descripcion: string | null;
+  licencia: string | null;
+  licencia_url: string | null;
+  autor: string | null;
+};
+
+export type DatosExternos = {
+  geografia: Geografia | null;
+  agro: Agro | null;
+  poblacion: PoblacionAnyo[];
+  imagenes: ImagenMunicipio[];
+};
+
+/** Lee de una vez las tablas complementarias importadas de INE, IGN, Wikidata y Commons. */
+export async function fetchDatosExternos(municipioId: string): Promise<DatosExternos> {
+  const [geo, agro, pob, img] = await Promise.all([
+    supabase
+      .from("municipio_geografia")
+      .select(
+        "latitud, longitud, altitud_m, superficie_km2, nucleo_referencia, fuente_coordenadas, fuente_altitud, fuente_superficie",
+      )
+      .eq("municipio_id", municipioId)
+      .maybeSingle(),
+    supabase
+      .from("municipio_agro")
+      .select("anyo, explotaciones, sau_hectareas, unidades_ganaderas, fuente")
+      .eq("municipio_id", municipioId)
+      .maybeSingle(),
+    supabase
+      .from("municipio_poblacion_historica")
+      .select("anyo, poblacion")
+      .eq("municipio_id", municipioId)
+      .order("anyo"),
+    supabase
+      .from("municipio_imagenes")
+      .select("tipo, url, url_thumb, pagina_descripcion, licencia, licencia_url, autor")
+      .eq("municipio_id", municipioId),
+  ]);
+  return {
+    geografia: (geo.data as Geografia | null) ?? null,
+    agro: (agro.data as Agro | null) ?? null,
+    poblacion: ((pob.data ?? []) as PoblacionAnyo[]).filter((p) => p.poblacion !== null),
+    imagenes: (img.data ?? []) as ImagenMunicipio[],
+  };
+}
+
 /* ------------------------------------------------------------------ *
  * Datos curiosos, visitas y frases "wrapped"
  * ------------------------------------------------------------------ */
