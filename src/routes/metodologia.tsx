@@ -91,7 +91,35 @@ function Metodologia() {
           A ellos se suman el paro registrado por provincia y el registro de establecimientos comerciales y
           servicios de proximidad, usados como contexto económico y comercial.
         </p>
+        <h3 className="pt-4 text-lg text-foreground">Fuentes complementarias externas</h3>
+        <p>
+          Para enriquecer la ficha de cada municipio se importan además, cruzando siempre por el código INE,
+          cuatro fuentes ajenas al portal de la Junta. No intervienen en el cálculo del índice de servicios:
+        </p>
+        <ul className="list-disc space-y-1 pl-5">
+          <li>
+            <strong className="text-foreground">INE · Censo Agrario</strong>: explotaciones agrarias, superficie
+            agrícola utilizada y unidades ganaderas (últimos datos municipales publicados, 2009).
+          </li>
+          <li>
+            <strong className="text-foreground">IGN/CNIG · API-Features</strong>: coordenadas y altitud del núcleo
+            de referencia de cada municipio.
+          </li>
+          <li>
+            <strong className="text-foreground">Wikidata</strong>: superficie municipal y serie de población
+            histórica por año; también aporta la altitud cuando el IGN no la publica.
+          </li>
+          <li>
+            <strong className="text-foreground">Wikimedia Commons</strong>: fotografía y escudo del municipio. Se
+            guarda y se muestra siempre la licencia, el enlace a la licencia y la autoría de cada archivo.
+          </li>
+        </ul>
+        <p>
+          La importación es tolerante a fallos: si una fuente no responde o no tiene datos de un municipio, el
+          resto se guarda igualmente y el municipio simplemente queda sin ese dato.
+        </p>
       </section>
+
 
       <section className="mt-10 space-y-3 text-sm leading-relaxed text-muted-foreground">
         <h2 className="text-2xl text-foreground">2. Cómo se normaliza cada indicador</h2>

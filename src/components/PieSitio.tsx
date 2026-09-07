@@ -39,6 +39,12 @@ export function PieSitio() {
           autobuses y de calidad del aire, bibliotecas y museos, comercio, servicios sociales y movilidad).
         </p>
         <p>
+          <strong className="text-foreground">Fuentes complementarias:</strong> INE (Censo Agrario), IGN/CNIG
+          (coordenadas y altitud), Wikidata (superficie y población histórica) y Wikimedia Commons (imágenes y
+          escudos, con la licencia y la autoría indicadas junto a cada imagen).
+        </p>
+
+        <p>
           Última actualización de los datos: {fmtFecha(actualizado.data)}. Los datos se sincronizan
           automáticamente una vez al mes.
         </p>

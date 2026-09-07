@@ -23,11 +23,11 @@ const UA = "MiPuebloEnCyL/1.0 (https://mipuebloencyl.lovable.app)";
 
 export type OpcionesImportacion = {
   /** Importar solo este municipio (prueba de mapeo de campos). */
-  codIne?: number;
+  codIne?: number | undefined;
   /** Punto de partida dentro de la lista de municipios, para importar por tandas. */
-  desde?: number;
+  desde?: number | undefined;
   /** Número máximo de municipios a procesar en esta ejecución. */
-  limite?: number;
+  limite?: number | undefined;
 };
 
 type Muni = { id: string; cod_ine: number; nombre: string; provincia: string };
