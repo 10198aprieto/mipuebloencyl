@@ -62,12 +62,12 @@ function Grafica({ serie }: { serie: PoblacionAnyo[] }) {
     <div>
       <svg
         viewBox={`0 0 ${w} ${h}`}
-        className="h-24 w-full"
+        className="h-24 w-full text-primary"
         role="img"
         aria-label={`Población de ${primero.anyo} (${primero.poblacion} habitantes) a ${ultimo.anyo} (${ultimo.poblacion} habitantes)`}
       >
-        <path d={`${d} L${w},${h} L0,${h} Z`} fill="hsl(var(--primary) / 0.12)" />
-        <path d={d} fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinejoin="round" />
+        <path d={`${d} L${w},${h} L0,${h} Z`} fill="currentColor" fillOpacity="0.15" />
+        <path d={d} fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
       </svg>
       <p className="mt-1 text-xs text-muted-foreground">
         {primero.anyo}: {fmtNum(primero.poblacion)} hab. · {ultimo.anyo}: {fmtNum(ultimo.poblacion)} hab.
