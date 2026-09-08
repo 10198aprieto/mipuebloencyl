@@ -40,6 +40,7 @@ import { BotonEmbed } from "@/components/BotonEmbed";
 import { BotonPDF } from "@/components/BotonPDF";
 import { FormularioSugerencia } from "@/components/FormularioSugerencia";
 import { TarjetaWrapped } from "@/components/TarjetaWrapped";
+import { DatosTerritorio, GaleriaMunicipio, useDatosExternos } from "@/components/DatosTerritorio";
 import { registrarVisita } from "@/lib/cyl";
 import { Eye, GitCompareArrows } from "lucide-react";
 
@@ -109,6 +110,7 @@ const PESTANAS = [
   { id: "social", etiqueta: "Social" },
   { id: "cultura", etiqueta: "Cultura y ocio" },
   { id: "comercio", etiqueta: "Comercio" },
+  { id: "territorio", etiqueta: "Territorio y campo" },
 ] as const;
 
 type PestanaId = (typeof PESTANAS)[number]["id"];
@@ -176,6 +178,7 @@ export function FichaMunicipio({
       vivo = false;
     };
   }, [municipioId]);
+  const externos = useDatosExternos(municipioId);
   const actualizado = useQuery({
     queryKey: ["ultima-actualizacion"],
     queryFn: fetchUltimaActualizacion,
@@ -213,6 +216,7 @@ export function FichaMunicipio({
               <Users className="size-4" aria-hidden /> {fmtNum(m.poblacion)} habitantes · INE {m.cod_ine}
             </p>
           </div>
+          <GaleriaMunicipio municipioId={m.id} nombre={m.nombre} />
           <div className="text-right">
             <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Índice de servicios</p>
             <p className="font-display text-5xl leading-none" style={{ color: nivel.color }}>
@@ -434,6 +438,7 @@ export function FichaMunicipio({
             />
           </div>
         )}
+        {pestana === "territorio" && <DatosTerritorio municipioId={m.id} />}
       </div>
 
       <div className="border-t border-border px-6 pb-6">
@@ -447,7 +452,7 @@ export function FichaMunicipio({
             <GitCompareArrows className="size-4" aria-hidden /> Comparar con otro municipio
           </Link>
           <BotonEmbed codIne={m.cod_ine} nombre={m.nombre} />
-          <BotonPDF municipio={m} indice={indice} actualizado={actualizado.data ?? null} />
+          <BotonPDF municipio={m} indice={indice} actualizado={actualizado.data ?? null} externos={externos.data ?? null} />
         </div>
         {visitas !== null && (
           <p className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
