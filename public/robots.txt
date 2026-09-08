@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://mipuebloencyl.lovable.app/sitemap.xml
+Sitemap: https://mipuebloencyl.es/sitemap.xml

@@ -11,7 +11,7 @@ import {
   type Pesos,
 } from "@/lib/cyl";
 
-const BASE = "https://mipuebloencyl.lovable.app";
+const BASE = "https://mipuebloencyl.es";
 
 export function TarjetaWrapped({
   municipio,
