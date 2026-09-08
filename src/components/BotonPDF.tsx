@@ -193,9 +193,7 @@ export function BotonPDF({
       linea(`Generado con MiPuebloEnCyL · ${DOMINIO}`, { size: 9, gris: true });
       doc.setTextColor(20, 80, 160);
       doc.setFontSize(9);
-      doc.textWithLink(`${DOMINIO}/municipio/${municipio.cod_ine}`, M, y, {
-        url: `${DOMINIO}/municipio/${municipio.cod_ine}`,
-      });
+      doc.textWithLink(DOMINIO, M, y, { url: DOMINIO });
 
       doc.save(`mipuebloencyl-${municipio.nombre.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}.pdf`);
     } finally {
