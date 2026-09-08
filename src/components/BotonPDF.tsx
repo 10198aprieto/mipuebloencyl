@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FileDown } from "lucide-react";
-import { fmtFecha, fmtNum, nivelIndice, type MunicipioFicha } from "@/lib/cyl";
+import { fmtFecha, fmtNum, nivelIndice, type DatosExternos, type MunicipioFicha } from "@/lib/cyl";
+
+const DOMINIO = "https://mipuebloencyl.es";
 
 const FUENTES: Array<[string, string]> = [
   ["Registro de municipios", "https://analisis.datosabiertos.jcyl.es/explore/dataset/registro-de-municipios-de-castilla-y-leon/"],
@@ -11,16 +13,22 @@ const FUENTES: Array<[string, string]> = [
   ["Calidad del aire", "https://analisis.datosabiertos.jcyl.es/explore/dataset/estaciones-de-control-de-la-calidad-del-aire/"],
   ["Bibliotecas y museos", "https://analisis.datosabiertos.jcyl.es/explore/dataset/museos/"],
   ["Centros y servicios de caracter social", "https://analisis.datosabiertos.jcyl.es/explore/dataset/centros-de-caracter-social/"],
+  ["INE - Censo Agrario (tabla 29006)", "https://www.ine.es/jaxi/Tabla.htm?tpx=29006"],
+  ["IGN/CNIG - API Features (nucleos de poblacion)", "https://api-features.ign.es/"],
+  ["Wikidata (poblacion historica, superficie, imagenes)", "https://www.wikidata.org/"],
+  ["Wikimedia Commons (fotografias y escudos)", "https://commons.wikimedia.org/"],
 ];
 
 export function BotonPDF({
   municipio,
   indice,
   actualizado,
+  externos = null,
 }: {
   municipio: MunicipioFicha;
   indice: number | null;
   actualizado: string | null;
+  externos?: DatosExternos | null;
 }) {
   const [generando, setGenerando] = useState(false);
 
@@ -119,6 +127,46 @@ export function BotonPDF({
       for (const [k, v] of inds) linea(`• ${k}: ${v}`);
       y += 12;
 
+      const geo = externos?.geografia ?? null;
+      const agro = externos?.agro ?? null;
+      const pob = (externos?.poblacion ?? []).filter((p) => p.poblacion !== null);
+      if (geo || agro || pob.length) {
+        linea("Territorio, agricultura y población (INE, IGN/CNIG y Wikidata)", {
+          size: 12,
+          bold: true,
+          salto: 2,
+        });
+        if (geo) {
+          linea(
+            `• Altitud: ${geo.altitud_m != null ? fmtNum(geo.altitud_m, " m", 0) : "Sin dato"}${geo.fuente_altitud ? ` (${geo.fuente_altitud})` : ""}`,
+          );
+          linea(
+            `• Superficie: ${geo.superficie_km2 != null ? fmtNum(geo.superficie_km2, " km²", 2) : "Sin dato"}${geo.fuente_superficie ? ` (${geo.fuente_superficie})` : ""}`,
+          );
+          if (geo.nucleo_referencia) linea(`• Núcleo de referencia: ${geo.nucleo_referencia}`);
+        }
+        if (agro) {
+          linea(`• Explotaciones agrarias: ${fmtNum(agro.explotaciones)}${agro.anyo ? ` (Censo Agrario ${agro.anyo})` : ""}`);
+          linea(`• Superficie agrícola útil: ${fmtNum(agro.sau_hectareas, " ha", 0)}`);
+          linea(`• Unidades ganaderas: ${fmtNum(agro.unidades_ganaderas, "", 0)}`);
+        }
+        if (pob.length >= 2) {
+          const a = pob[0]!;
+          const b = pob[pob.length - 1]!;
+          linea(
+            `• Población histórica: ${a.anyo}: ${fmtNum(a.poblacion)} hab. → ${b.anyo}: ${fmtNum(b.poblacion)} hab. (${pob.length} años de serie)`,
+          );
+        }
+        const foto = externos?.imagenes.find((i) => i.tipo === "imagen");
+        if (foto) {
+          linea(
+            `• Imagen: ${foto.autor ?? "autoría desconocida"} · ${foto.licencia ?? "ver licencia"} · Wikimedia Commons`,
+            { gris: true },
+          );
+        }
+        y += 12;
+      }
+
       linea(`Última actualización de los datos: ${fmtFecha(actualizado)}`, { gris: true, salto: 12 });
 
       linea("Fuentes (Portal de Datos Abiertos de la Junta de Castilla y León)", {
@@ -142,7 +190,12 @@ export function BotonPDF({
         y += 14;
       }
       y += 10;
-      linea("Generado con MiPuebloEnCyL · https://mipuebloencyl.lovable.app", { size: 9, gris: true });
+      linea(`Generado con MiPuebloEnCyL · ${DOMINIO}`, { size: 9, gris: true });
+      doc.setTextColor(20, 80, 160);
+      doc.setFontSize(9);
+      doc.textWithLink(`${DOMINIO}/municipio/${municipio.cod_ine}`, M, y, {
+        url: `${DOMINIO}/municipio/${municipio.cod_ine}`,
+      });
 
       doc.save(`mipuebloencyl-${municipio.nombre.toLowerCase().replace(/[^a-z0-9]+/gi, "-")}.pdf`);
     } finally {
