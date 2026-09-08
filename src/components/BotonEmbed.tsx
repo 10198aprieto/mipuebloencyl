@@ -4,7 +4,7 @@ import { Code2, Copy, Check } from "lucide-react";
 export function BotonEmbed({ codIne, nombre }: { codIne: number; nombre: string }) {
   const [abierto, setAbierto] = useState(false);
   const [copiado, setCopiado] = useState(false);
-  const base = typeof window !== "undefined" ? window.location.origin : "https://mipuebloencyl.lovable.app";
+  const base = "https://mipuebloencyl.es";
   const codigo = `<iframe src="${base}/embed/${codIne}" title="Servicios públicos de ${nombre} · MiPuebloEnCyL" width="100%" height="620" style="border:1px solid #e5e0d8;border-radius:16px" loading="lazy"></iframe>`;
 
   return (

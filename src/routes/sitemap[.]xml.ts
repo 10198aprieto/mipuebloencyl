@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const BASE = "https://mipuebloencyl.lovable.app";
+const BASE = "https://mipuebloencyl.es";
 
 const ESTATICAS = [
   { url: "/", prioridad: "1.0", frecuencia: "weekly" },

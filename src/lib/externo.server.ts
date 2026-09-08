@@ -19,7 +19,7 @@
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { logSync, upsertChunks, type SyncResult } from "@/lib/jcyl.server";
 
-const UA = "MiPuebloEnCyL/1.0 (https://mipuebloencyl.lovable.app)";
+const UA = "MiPuebloEnCyL/1.0 (https://mipuebloencyl.es)";
 
 export type OpcionesImportacion = {
   /** Importar solo este municipio (prueba de mapeo de campos). */

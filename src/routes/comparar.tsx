@@ -13,7 +13,7 @@ import {
   type PuntoMapa,
 } from "@/lib/cyl";
 
-const BASE = "https://mipuebloencyl.lovable.app";
+const BASE = "https://mipuebloencyl.es";
 
 type Busqueda = { a?: number | undefined; b?: number | undefined };
 

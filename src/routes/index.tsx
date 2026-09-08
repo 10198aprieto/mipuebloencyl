@@ -46,8 +46,8 @@ export const Route = createFileRoute("/")({
         content:
           "Compara los servicios públicos de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad.",
       },
-      { property: "og:url", content: "https://mipuebloencyl.lovable.app/" },
-      { property: "og:image", content: "https://mipuebloencyl.lovable.app/og-mipuebloencyl.jpg" },
+      { property: "og:url", content: "https://mipuebloencyl.es/" },
+      { property: "og:image", content: "https://mipuebloencyl.es/og-mipuebloencyl.jpg" },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:image:type", content: "image/jpeg" },
@@ -55,9 +55,9 @@ export const Route = createFileRoute("/")({
         property: "og:image:alt",
         content: "MiPuebloEnCyL, comparador de servicios públicos de los municipios de Castilla y León",
       },
-      { name: "twitter:image", content: "https://mipuebloencyl.lovable.app/og-mipuebloencyl.jpg" },
+      { name: "twitter:image", content: "https://mipuebloencyl.es/og-mipuebloencyl.jpg" },
     ],
-    links: [{ rel: "canonical", href: "https://mipuebloencyl.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://mipuebloencyl.es/" }],
   }),
   component: Index,
 });

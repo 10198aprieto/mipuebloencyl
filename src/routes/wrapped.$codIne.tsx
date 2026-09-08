@@ -10,7 +10,7 @@ import {
   PESOS_POR_DEFECTO,
 } from "@/lib/cyl";
 
-const BASE = "https://mipuebloencyl.lovable.app";
+const BASE = "https://mipuebloencyl.es";
 
 export const Route = createFileRoute("/wrapped/$codIne")({
   head: ({ params }) => {

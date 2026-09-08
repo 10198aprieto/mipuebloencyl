@@ -26,11 +26,11 @@ export const Route = createFileRoute("/embed/$codIne")({
       { property: "og:type", content: "article" },
       { property: "og:site_name", content: "MiPuebloEnCyL" },
       { property: "og:locale", content: "es_ES" },
-      { property: "og:url", content: `https://mipuebloencyl.lovable.app/embed/${params.codIne}` },
-      { property: "og:image", content: `https://mipuebloencyl.lovable.app/api/og/${params.codIne}` },
+      { property: "og:url", content: `https://mipuebloencyl.es/embed/${params.codIne}` },
+      { property: "og:image", content: `https://mipuebloencyl.es/api/og/${params.codIne}` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
-      { name: "twitter:image", content: `https://mipuebloencyl.lovable.app/api/og/${params.codIne}` },
+      { name: "twitter:image", content: `https://mipuebloencyl.es/api/og/${params.codIne}` },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
@@ -115,7 +115,7 @@ function Embed() {
 
       <p className="mt-4 flex items-center gap-1 border-t border-border pt-2 text-[0.7rem] text-muted-foreground">
         <Wind className="size-3" aria-hidden /> Datos:{" "}
-        <a href="https://mipuebloencyl.lovable.app/" target="_blank" rel="noreferrer" className="font-medium text-primary underline underline-offset-2">
+        <a href="https://mipuebloencyl.es/" target="_blank" rel="noreferrer" className="font-medium text-primary underline underline-offset-2">
           MiPuebloEnCyL
         </a>{" "}
         ·{" "}
