@@ -157,15 +157,39 @@ export function BotonPDF({
             `• Población histórica: ${a.anyo}: ${fmtNum(a.poblacion)} hab. → ${b.anyo}: ${fmtNum(b.poblacion)} hab. (${pob.length} años de serie)`,
           );
         }
-        const foto = externos?.imagenes.find((i) => i.tipo === "imagen");
-        if (foto) {
-          linea(
-            `• Imagen: ${foto.autor ?? "autoría desconocida"} · ${foto.licencia ?? "ver licencia"} · Wikimedia Commons`,
-            { gris: true },
-          );
-        }
         y += 12;
       }
+
+      // Créditos de imágenes: siempre presentes, con textos de reserva.
+      linea("Imágenes: autoría y licencia", { size: 12, bold: true, salto: 2 });
+      const enlace = (url: string) => {
+        if (y > doc.internal.pageSize.getHeight() - M) {
+          doc.addPage();
+          y = M;
+        }
+        doc.setFontSize(7.5);
+        doc.setTextColor(20, 80, 160);
+        doc.textWithLink(url, M + 10, y, { url });
+        y += 12;
+      };
+      for (const [etiqueta, tipo] of [
+        ["Fotografía", "imagen"],
+        ["Escudo", "escudo"],
+      ] as const) {
+        const img = externos?.imagenes.find((i) => i.tipo === tipo) ?? null;
+        if (!img) {
+          linea(`• ${etiqueta}: sin imagen disponible en Wikimedia Commons`, { gris: true });
+          continue;
+        }
+        linea(
+          `• ${etiqueta}: autoría: ${img.autor?.trim() || "no indicada en la fuente"} · licencia: ${img.licencia?.trim() || "no indicada (consultar página de la imagen)"} · Wikimedia Commons`,
+        );
+        if (img.licencia_url) enlace(img.licencia_url);
+        if (img.pagina_descripcion) enlace(img.pagina_descripcion);
+        else if (!img.licencia_url) enlace(img.url);
+      }
+      y += 12;
+
 
       linea(`Última actualización de los datos: ${fmtFecha(actualizado)}`, { gris: true, salto: 12 });
 
