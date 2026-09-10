@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ClientOnly } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -76,6 +76,14 @@ function Index() {
     () => new Map(lista.map((p) => [p.id, indiceConPesos(p, pesos)])),
     [lista, pesos],
   );
+
+  useEffect(() => {
+    if (!seleccionado) return;
+    const ficha = document.getElementById("ficha-municipio");
+    if (ficha) {
+      ficha.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [seleccionado]);
 
   return (
     <div className="min-h-screen">
@@ -164,7 +172,7 @@ function Index() {
           </ul>
         </section>
 
-        <section aria-label="Ficha del municipio">
+        <section id="ficha-municipio" aria-label="Ficha del municipio">
           {seleccionado ? (
             <FichaMunicipio municipioId={seleccionado.id} pesos={pesos} />
           ) : (
