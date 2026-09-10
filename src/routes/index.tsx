@@ -172,7 +172,7 @@ function Index() {
           </ul>
         </section>
 
-        <section aria-label="Ficha del municipio">
+        <section id="ficha-municipio" aria-label="Ficha del municipio">
           {seleccionado ? (
             <FichaMunicipio municipioId={seleccionado.id} pesos={pesos} />
           ) : (
