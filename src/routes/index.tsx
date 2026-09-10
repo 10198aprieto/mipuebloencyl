@@ -77,6 +77,14 @@ function Index() {
     [lista, pesos],
   );
 
+  useEffect(() => {
+    if (!seleccionado) return;
+    const ficha = document.getElementById("ficha-municipio");
+    if (ficha) {
+      ficha.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [seleccionado]);
+
   return (
     <div className="min-h-screen">
       <header className="border-b border-border bg-card">
