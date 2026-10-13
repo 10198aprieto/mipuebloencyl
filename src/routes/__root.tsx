@@ -99,6 +99,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "¿Cómo de bien atendido está mi pueblo? | Servicios en Castilla y León" },
       { name: "twitter:description", content: "Compara los servicios públicos (educación, salud, transporte y calidad del aire) de los 2.248 municipios de Castilla y León con la media de su provincia y de la comunidad." },
     ],
+    scripts: [
+      {
+        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7982425877279613",
+        async: true,
+        crossOrigin: "anonymous",
+      },
+    ],
     links: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
